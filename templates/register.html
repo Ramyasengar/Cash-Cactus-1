@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #011b47, #05327e);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      background: #d4d3d3;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      background: linear-gradient(90deg, #ff512f, #dd2476, #2575fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .required-star {
+      color: red;
+      margin-left: 2px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #2575fc;
+      box-shadow: 0 0 5px rgba(37, 117, 252, 0.3);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #ff512f, #dd2476, #2575fc);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #2575fc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Register</h1>
+
+    <form method="POST" action="{{ url_for('register') }}" onsubmit="return validateForm()">
+
+      <label>Name<span class="required-star">*</span></label>
+      <input type="text" name="name" required>
+
+      <label>Mobile Number<span class="required-star">*</span></label>
+      <input
+        type="text"
+        id="mobile"
+        name="mobile"
+        placeholder="Enter 10-digit mobile number"
+        maxlength="10"
+        required
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+      >
+
+      <label>Email<span class="required-star">*</span></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="username@gmail.com"
+        pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+        title="Only gmail allowed (username@gmail.com)"
+        required
+      >
+
+      <label>Password<span class="required-star">*</span></label>
+      <input type="password" id="password" name="password" required>
+
+      <label>Confirm Password<span class="required-star">*</span></label>
+      <input type="password" id="confirm-password" name="confirm-password" required>
+
+      <div id="errorMsg" class="error">
+        {% if error %}
+          {{ error }}
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn">Register</button>
+
+      <div class="login-link">
+        Already have an account? <a href="{{ url_for('login') }}">Login</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function validateForm() {
+      const mobile = document.getElementById("mobile").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+      const errorMsg = document.getElementById("errorMsg");
+
+      const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+      if (!gmailRegex.test(email)) {
+        errorMsg.textContent = "Email must be in format username@gmail.com";
+        return false;
+      }
+
+      if (mobile.length !== 10) {
+        errorMsg.textContent = "Mobile number must be exactly 10 digits";
+        return false;
+      }
+
+      if (password.length < 6) {
+        errorMsg.textContent = "Password must be at least 6 characters";
+        return false;
+      }
+
+      if (password !== confirmPassword) {
+        errorMsg.textContent = "Passwords do not match";
+        return false;
+      }
+
+      errorMsg.textContent = "";
+      return true;
+    }
+  </script>
+</body>
+</html>

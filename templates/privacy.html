@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Privacy Policy</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #003f46, #014f59); /* dark teal blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .policy-box {
+            background: #ffffff; /* white box */
+            max-width: 900px;
+            width: 100%;
+            padding: 40px 45px;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 38px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        p {
+            color: #000;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            margin-top: 22px;
+            margin-bottom: 8px;
+            font-size: 18px;
+            color: #000;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        ul li {
+            color: #000;
+            font-size: 15px;
+            margin-bottom: 6px;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #014f59;
+            font-size: 16px;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="policy-box">
+        <h1>Privacy Policy</h1>
+
+        <p>
+            Your privacy is our top priority. This Privacy Policy explains how our app collects,
+            uses, stores, and protects your personal and financial information.
+        </p>
+
+        <h3>1. Information We Collect</h3>
+        <p>We collect only the information necessary to provide a smooth and secure experience, which may include:</p>
+        <ul>
+            <li>Personal details such as name, email address, and contact information</li>
+            <li>Financial data including income, expenses, and savings entered by the user</li>
+            <li>Transaction data retrieved securely through banking API integrations (with user consent)</li>
+            <li>App usage data to improve performance and user experience</li>
+        </ul>
+
+        <h3>2. How We Use Your Information</h3>
+        <p>Your information is used to:</p>
+        <ul>
+            <li>Track and analyze income, expenses, and savings</li>
+            <li>Generate visual charts and financial insights</li>
+            <li>Monitor spending limits and send alerts when monthly budgets are close to being exceeded</li>
+            <li>Provide guidance and recommendations for smart investing options</li>
+            <li>Improve app features, security, and overall functionality</li>
+        </ul>
+
+        <h3>3. Data Security</h3>
+        <p>
+            We implement industry-standard security measures to protect your data from unauthorized
+            access, loss, or misuse. All sensitive data is encrypted and processed through secure
+            systems to ensure confidentiality and integrity.
+        </p>
+
+        <h3>4. Data Sharing</h3>
+        <p>We do not sell, trade, or rent your personal data to third parties. Information is shared only:</p>
+        <ul>
+            <li>With trusted service providers (such as banking APIs) strictly for functionality</li>
+            <li>When required by law or legal authorities</li>
+        </ul>
+
+        <h3>5. User Control & Consent</h3>
+        <p>You have full control over your data. You may:</p>
+        <ul>
+            <li>Review, update, or delete your personal information</li>
+            <li>Enable or disable banking integrations at any time</li>
+            <li>Withdraw consent for data processing where applicable</li>
+        </ul>
+
+        <h3>6. Cookies & Analytics</h3>
+        <p>
+            The app may use cookies or analytics tools to understand usage patterns and improve user
+            experience. These tools do not collect personally identifiable information without consent.
+        </p>
+
+        <h3>7. Children’s Privacy</h3>
+        <p>
+            Our app is not intended for users under the age of 18. We do not knowingly collect data
+            from minors.
+        </p>
+
+        <h3>8. Policy Updates</h3>
+        <p>
+            We may update this Privacy Policy from time to time. Any changes will be communicated
+            within the app, and continued use of the app implies acceptance of the updated policy.
+        </p>
+
+        <div class="back-link">
+            <a href="{{ url_for('home') }}">← Back to Home</a>
+        </div>
+    </div>
+
+</body>
+</html>
