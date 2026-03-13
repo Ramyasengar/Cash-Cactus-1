@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #022c34, #043f4a);
+            color: white;
+            overflow: hidden;
+        }
+
+        /* ---------- TOP GLASS CARD ---------- */
+        .top-card {
+            margin: 20px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(14px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ---------- PROFILE ---------- */
+        .profile-section {
+            position: relative;
+            z-index: 20;
+        }
+
+        .profile-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .profile-icon {
+            font-size: 26px;
+        }
+
+        .welcome-text span {
+            font-weight: 600;
+        }
+
+        /* ---------- PROFILE DROPDOWN ---------- */
+        .profile-menu {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 200px;
+
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(16px);
+            border-radius: 14px;
+            padding: 8px 0;
+
+            display: none;
+            flex-direction: column;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            z-index: 9999;
+        }
+
+        .profile-menu a {
+            padding: 10px 18px;
+            font-size: 14px;
+            color: white;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .profile-menu a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .logout {
+            color: #ffb3b3;
+        }
+
+        /* ---------- CENTER CONTENT ---------- */
+        .center-content {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+
+        .center-btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 12px 34px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: 0.3s;
+        }
+
+        .center-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ---------- BOTTOM HALF SPHERE ---------- */
+        .bottom-panel {
+            position: absolute;
+            bottom: -35%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 75%;
+
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(16px);
+            border-radius: 50% 50% 0 0;
+            border: 1px solid rgba(255,255,255,0.2);
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 60px;
+        }
+
+        /* ---------- ICON ROW ---------- */
+        .icon-row {
+            display: flex;
+            gap: 80px;
+        }
+
+        .icon-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .icon-box i {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .icon-box span {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .icon-box:hover {
+            transform: translateY(-6px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP GLASS CARD -->
+    <div class="top-card">
+        <div class="profile-section">
+            <div class="profile-wrapper" onclick="toggleMenu(event)">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <div class="welcome-text">
+                    Welcome, <span>@{{ session.get('user_name') }}</span>
+                </div>
+            </div>
+
+            <div class="profile-menu" id="profileMenu">
+                <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+                <a href="{{ url_for('about') }}">About Us</a>
+                <a href="#">Help</a>
+                <a href="#">Contact Us</a>
+                <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+                <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CENTER CONTENT -->
+    <div class="center-content">
+        <div class="title">Money grows well</div>
+        <a href="{{ url_for('dashboard') }}" class="center-btn">Go to Dashboard</a>
+    </div>
+
+    <!-- BOTTOM HALF SPHERE -->
+    <div class="bottom-panel">
+        <div class="icon-row">
+            <div class="icon-box">
+                <i class="fas fa-chart-pie"></i>
+                <span>Progress</span>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-piggy-bank"></i>
+                <span>Saving</span>
+            </div>
+            <div class="icon-box">
+                <i class="fas fa-chart-line"></i>
+                <span>Investment</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById("profileMenu");
+            menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+        }
+
+        document.addEventListener("click", function () {
+            document.getElementById("profileMenu").style.display = "none";
+        });
+    </script>
+
+</body>
+</html>
