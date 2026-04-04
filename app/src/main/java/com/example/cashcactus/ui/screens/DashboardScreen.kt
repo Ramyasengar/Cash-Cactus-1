@@ -59,6 +59,7 @@ fun DashboardScreen(
         .filter { it.type.equals("expense", ignoreCase = true) }
         .groupBy { it.category }
         .mapValues { entry -> entry.value.sumOf { it.amount }.toFloat() }
+    val aiExpenseMap = buildOptimizedExpenseMap(expenseMap)
 
     var category by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
@@ -86,6 +87,15 @@ fun DashboardScreen(
     val fillRequiredText = stringResource(R.string.fill_required)
     val enterSavingText = stringResource(R.string.enter_saving)
     val savedSuccessText = stringResource(R.string.saved_success)
+    var selectedGraphPreference by remember {
+        mutableStateOf(
+            when (getGraphPreference(context)) {
+                GRAPH_USER -> GRAPH_USER
+                GRAPH_AI -> GRAPH_AI
+                else -> null
+            }
+        )
+    }
 
     CashCactusScreenScaffold(title = stringResource(R.string.dashboard)) { contentPadding ->
         LazyColumn(
@@ -241,11 +251,63 @@ fun DashboardScreen(
                 item {
                     CashCactusCard(modifier = Modifier.fillMaxWidth()) {
                         Column {
-                            Text(text = stringResource(R.string.expense_analysis), style = MaterialTheme.typography.titleMedium)
+                            Text(text = stringResource(R.string.user_graph_title), style = MaterialTheme.typography.titleMedium)
                             Spacer(modifier = Modifier.height(10.dp))
                             PieChartView(data = expenseMap)
                         }
                     }
+                }
+
+                item {
+                    CashCactusCard(modifier = Modifier.fillMaxWidth()) {
+                        Column {
+                            Text(text = stringResource(R.string.ai_graph_title), style = MaterialTheme.typography.titleMedium)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            PieChartView(data = aiExpenseMap)
+                        }
+                    }
+                }
+
+                item {
+                    CashCactusCard(modifier = Modifier.fillMaxWidth()) {
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(
+                                text = stringResource(R.string.choose_preferred_plan),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                RadioButton(
+                                    selected = selectedGraphPreference == GRAPH_USER,
+                                    onClick = {
+                                        selectedGraphPreference = GRAPH_USER
+                                        saveGraphPreference(context, GRAPH_USER)
+                                    }
+                                )
+                                Text(text = stringResource(R.string.use_actual_spending))
+                            }
+
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                RadioButton(
+                                    selected = selectedGraphPreference == GRAPH_AI,
+                                    onClick = {
+                                        selectedGraphPreference = GRAPH_AI
+                                        saveGraphPreference(context, GRAPH_AI)
+                                    }
+                                )
+                                Text(text = stringResource(R.string.use_ai_optimized_plan))
+                            }
+                        }
+                    }
+                }
+            }
+
+            item {
+                Button(
+                    onClick = { navController.navigate("home") },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(R.string.back_home))
                 }
             }
         }

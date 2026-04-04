@@ -405,5 +405,11 @@ We may update this policy. Continued use means acceptance.
     <string name="stock_market">Stock Market</string>
     <string name="get_recommendation">Get Recommendation</string>
     <string name="recommended_result">Recommended: %1$s</string>
+    <string name="user_graph_title">User Graph (Actual Spending)</string>
+    <string name="ai_graph_title">AI Prediction Graph (Optimized)</string>
+    <string name="choose_preferred_plan">Choose Your Preferred Plan</string>
+    <string name="use_actual_spending">Use My Actual Spending (User Graph)</string>
+    <string name="use_ai_optimized_plan">Use AI Optimized Plan (AI Graph)</string>
+    <string name="select_plan_from_dashboard">Choose a preferred plan in Dashboard to view analytics graph.</string>
 
 </resources>

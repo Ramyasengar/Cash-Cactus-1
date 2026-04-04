@@ -60,8 +60,17 @@ fun ExpenseGraphScreen(
         .mapValues { (_, list) -> list.sumOf { it.amount }.toFloat() }
         .toList()
         .sortedByDescending { it.second }
+    val aiGraphData = buildOptimizedExpenseMap(graphData.toMap())
+        .toList()
+        .sortedByDescending { it.second }
+    val selectedGraphPreference = getGraphPreference(context)
+    val selectedGraphData = when (selectedGraphPreference) {
+        GRAPH_AI -> aiGraphData
+        GRAPH_USER -> graphData
+        else -> emptyList()
+    }
 
-    val maxValue = graphData.maxOfOrNull { it.second } ?: 1f
+    val maxValue = selectedGraphData.maxOfOrNull { it.second } ?: 1f
 
     CashCactusScreenScaffold(title = stringResource(R.string.expense_analysis)) { contentPadding ->
         Column(
@@ -78,12 +87,22 @@ fun ExpenseGraphScreen(
                 }
             }
 
-            GraphCard(
-                data = graphData,
-                animatedValues = graphData.map { animateFloatAsState(it.second).value },
-                maxValue = maxValue,
-                barColor = Color(0xFF7E57C2)
-            )
+            if (selectedGraphData.isEmpty()) {
+                CashCactusCard(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = stringResource(R.string.select_plan_from_dashboard),
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            } else {
+                GraphCard(
+                    data = selectedGraphData,
+                    animatedValues = selectedGraphData.map { animateFloatAsState(it.second).value },
+                    maxValue = maxValue,
+                    barColor = if (selectedGraphPreference == GRAPH_AI) Color(0xFF26A69A) else Color(0xFF7E57C2)
+                )
+            }
         }
     }
 }
