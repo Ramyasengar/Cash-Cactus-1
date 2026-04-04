@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -32,8 +31,6 @@ fun HomeScreen(
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
-
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -52,9 +49,6 @@ fun HomeScreen(
                     navController.navigate("edit")
                 }
 
-                DrawerItem("Language", Icons.Default.Language) {
-                    navController.navigate("language")
-                }
 
                 DrawerItem("About", Icons.Default.Info) {
                     navController.navigate("about")

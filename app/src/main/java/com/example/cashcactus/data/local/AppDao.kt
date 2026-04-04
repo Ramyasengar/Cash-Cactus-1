@@ -75,4 +75,7 @@ interface AppDao {
 
     @Query("SELECT * FROM transactions WHERE type = :type")
     fun getTransactionsByType(type: String): kotlinx.coroutines.flow.Flow<List<Transaction>>
+
+    @Query("SELECT * FROM transactions WHERE type = :type ORDER BY date DESC")
+    suspend fun getTransactionsByTypeList(type: String): List<Transaction>
 }

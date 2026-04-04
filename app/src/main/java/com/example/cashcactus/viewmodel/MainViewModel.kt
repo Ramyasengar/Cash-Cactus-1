@@ -55,6 +55,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     var trend by mutableStateOf("")
         private set
+
+    private var aiPredictedExpenses by mutableStateOf(defaultCategoryTotals())
     // ================= LOGIN =================
     fun loginUser(email: String, password: String, onResult: (Boolean) -> Unit) {
 
@@ -174,8 +176,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 Transaction(amount = education, type = "expense", category = "Education", date = System.currentTimeMillis())
             )
 
-            updatePrediction(transactions)        // local AI
-            fetchRealPrediction(transactions)     // 🔥 backend AI
+            refreshAIPredictedExpenses()
+            updatePrediction(transactions)
+            fetchRealPrediction(transactions)
         }
     }
 
@@ -289,6 +292,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             )
 
             dao.insertDashboard(dashboard)
+            refreshAIPredictedExpenses()
         }
         FirebaseRepository.saveUserData(
             currentUserId.toString(),
@@ -325,18 +329,53 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 date = System.currentTimeMillis()
             )
             dao.insertTransaction(transaction)
+            refreshAIPredictedExpenses()
         }
     }
-    fun getAIPredictedExpenses(): List<Pair<String, Float>> {
-        return listOf(
-            "Food" to 2000f,
-            "Rent" to 8000f,
-            "Medical" to 1000f,
-            "EMI" to 3000f,
-            "Education" to 1500f,
-            "Other" to 1000f
-        )
+    fun getAIPredictedExpenses(): List<Pair<String, Float>> = aiPredictedExpenses
+
+    private fun refreshAIPredictedExpenses() {
+        viewModelScope.launch {
+            val expenseTransactions = dao.getTransactionsByTypeList("expense")
+            aiPredictedExpenses = calculateCategoryTotals(expenseTransactions)
+        }
     }
+
+    private fun calculateCategoryTotals(transactions: List<Transaction>): List<Pair<String, Float>> {
+        if (transactions.isEmpty()) return defaultCategoryTotals()
+
+        val totals = mutableMapOf(
+            "Food" to 0f,
+            "Rent" to 0f,
+            "Medical" to 0f,
+            "EMI" to 0f,
+            "Education" to 0f,
+            "Other" to 0f
+        )
+
+        transactions.forEach { transaction ->
+            val key = when (transaction.category.trim().lowercase()) {
+                "food" -> "Food"
+                "rent" -> "Rent"
+                "medical" -> "Medical"
+                "emi" -> "EMI"
+                "education" -> "Education"
+                else -> "Other"
+            }
+            totals[key] = totals.getValue(key) + transaction.amount.toFloat()
+        }
+
+        return totals.toList()
+    }
+
+    private fun defaultCategoryTotals(): List<Pair<String, Float>> = listOf(
+        "Food" to 0f,
+        "Rent" to 0f,
+        "Medical" to 0f,
+        "EMI" to 0f,
+        "Education" to 0f,
+        "Other" to 0f
+    )
     fun updatePrediction(transactions: List<Transaction>) {
         prediction = BudgetPredictor.predictMonthlySpending(transactions)
         insight = BudgetPredictor.generateInsight(transactions)
