@@ -12,13 +12,12 @@ import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Card
@@ -48,7 +47,10 @@ import com.example.cashcactus.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(navController: NavHostController, viewModel: MainViewModel, onThemeChange: (Boolean) -> Unit) {
+fun HomeScreen(
+    navController: NavHostController,
+    viewModel: MainViewModel
+) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -68,8 +70,9 @@ fun HomeScreen(navController: NavHostController, viewModel: MainViewModel, onThe
                 DrawerItem("Privacy Policy", Icons.Default.Lock) { navController.navigate("privacy") }
                 DrawerItem("Contact Us", Icons.Default.Call) { navController.navigate("contact") }
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                DrawerItem("Dark Mode", Icons.Default.DarkMode) { onThemeChange(true) }
-                DrawerItem("Light Mode", Icons.Default.LightMode) { onThemeChange(false) }
+                DrawerItem("Settings", Icons.Default.Settings) {
+                    navController.navigate("settings")
+                }
                 DrawerItem("Logout", Icons.AutoMirrored.Filled.ExitToApp) { viewModel.logout(navController) }
             }
         }

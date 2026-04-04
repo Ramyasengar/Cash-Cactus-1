@@ -32,6 +32,7 @@ import com.example.cashcactus.ui.screens.InvestmentScreen
 import com.example.cashcactus.ui.screens.LoginScreen
 import com.example.cashcactus.ui.screens.PrivacyPolicyScreen
 import com.example.cashcactus.ui.screens.RegisterScreen
+import com.example.cashcactus.ui.screens.SettingsScreen
 import com.example.cashcactus.ui.screens.VaultEntryScreen
 import com.example.cashcactus.ui.screens.VaultHomeScreen
 import com.example.cashcactus.ui.screens.VaultPinScreen
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
             var isDark by remember { mutableStateOf(false) }
 
             CashCactusTheme(darkTheme = isDark) {
-                CashCactusApp(onThemeChange = { isDark = it })
+                CashCactusApp(isDarkTheme = isDark, onThemeChange = { isDark = it })
             }
         }
     }
@@ -70,7 +71,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun CashCactusApp(onThemeChange: (Boolean) -> Unit) {
+fun CashCactusApp(isDarkTheme: Boolean, onThemeChange: (Boolean) -> Unit) {
     val viewModel: MainViewModel = viewModel()
     val context = LocalContext.current
 
@@ -82,12 +83,13 @@ fun CashCactusApp(onThemeChange: (Boolean) -> Unit) {
         }
     }
 
-    AppContent(viewModel, onThemeChange)
+    AppContent(viewModel, isDarkTheme, onThemeChange)
 }
 
 @Composable
 fun AppContent(
     viewModel: MainViewModel,
+    isDarkTheme: Boolean,
     onThemeChange: (Boolean) -> Unit
 ) {
     val navController = rememberNavController()
@@ -97,7 +99,14 @@ fun AppContent(
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("register") { RegisterScreen(navController, viewModel) }
 
-        composable("home") { HomeScreen(navController, viewModel, onThemeChange) }
+        composable("home") { HomeScreen(navController, viewModel) }
+        composable("settings") {
+            SettingsScreen(
+                navController = navController,
+                isDarkTheme = isDarkTheme,
+                onThemeChange = onThemeChange
+            )
+        }
         composable("about") { AboutScreen(navController) }
         composable("help") { HelpScreen(navController) }
         composable("contact") { ContactScreen(navController) }
