@@ -19,78 +19,54 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.google.firebase.auth.FirebaseAuth
-import androidx.compose.ui.res.stringResource
 import com.example.cashcactus.R
+import com.example.cashcactus.ui.components.BaseScreen
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun ForgotPasswordScreen(navController: NavHostController) {
-
-    val pastelBg = Color(0xFF796A6A)
-    val glassColor = Color.White.copy(alpha = 0.15f)
     val context = LocalContext.current
     var email by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-
-        Text(stringResource(R.string.reset_password), style = MaterialTheme.typography.headlineMedium)
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it.trim() },
-            label = { Text(stringResource(R.string.enter_email)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {
-
-                if (email.isEmpty()) {
-                    Toast.makeText(context, context.getString(R.string.enter_email_first), Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    Toast.makeText(context, context.getString(R.string.enter_valid_email), Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                FirebaseAuth.getInstance()
-                    .sendPasswordResetEmail(email.trim())
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.reset_link_sent),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        } else {
-                            Toast.makeText(
-                                context,
-                                task.exception?.message ?: context.getString(R.string.error_occurred),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-            },
-            modifier = Modifier.fillMaxWidth()
+    BaseScreen(title = stringResource(R.string.reset_password)) { contentPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(stringResource(R.string.send_reset_link))
+            Text(stringResource(R.string.reset_password), style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(20.dp))
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it.trim() },
+                label = { Text(stringResource(R.string.enter_email)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(onClick = {
+                if (email.isEmpty()) {
+                    Toast.makeText(context, context.getString(R.string.enter_email_first), Toast.LENGTH_SHORT).show(); return@Button
+                }
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(context, context.getString(R.string.enter_valid_email), Toast.LENGTH_SHORT).show(); return@Button
+                }
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email.trim()).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(context, context.getString(R.string.reset_link_sent), Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, task.exception?.message ?: context.getString(R.string.error_occurred), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.send_reset_link))
+            }
         }
     }
 }

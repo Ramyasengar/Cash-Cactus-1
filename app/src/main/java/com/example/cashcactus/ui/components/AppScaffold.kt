@@ -19,15 +19,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-private val DashboardBackground = Color(0xFF796A6A)
+val DashboardBackground = Color(0xFF796A6A)
 private val DashboardGlassCard = Color.White.copy(alpha = 0.15f)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CashCactusScreenScaffold(
+fun BaseScreen(
     title: String,
     modifier: Modifier = Modifier,
+    navigationIcon: (@Composable () -> Unit)? = null,
     topBarActions: @Composable () -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
@@ -36,13 +38,17 @@ fun CashCactusScreenScaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = title, style = MaterialTheme.typography.headlineSmall) },
+                navigationIcon = { navigationIcon?.invoke() },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = DashboardBackground,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+                    actionIconContentColor = MaterialTheme.colorScheme.onBackground
                 ),
                 actions = { topBarActions() }
             )
-        }
+        },
+        bottomBar = { bottomBar() }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -56,6 +62,23 @@ fun CashCactusScreenScaffold(
 }
 
 @Composable
+fun CashCactusScreenScaffold(
+    title: String,
+    modifier: Modifier = Modifier,
+    topBarActions: @Composable () -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
+    content: @Composable (PaddingValues) -> Unit
+) {
+    BaseScreen(
+        title = title,
+        modifier = modifier,
+        topBarActions = topBarActions,
+        bottomBar = bottomBar,
+        content = content
+    )
+}
+
+@Composable
 fun CashCactusCard(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
@@ -65,8 +88,6 @@ fun CashCactusCard(
         colors = CardDefaults.cardColors(containerColor = DashboardGlassCard),
         modifier = modifier
     ) {
-        Box(modifier = Modifier.padding(16.dp)) {
-            content()
-        }
+        Box(modifier = Modifier.padding(16.dp)) { content() }
     }
 }
