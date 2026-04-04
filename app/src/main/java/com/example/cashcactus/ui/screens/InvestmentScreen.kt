@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -37,13 +38,12 @@ fun InvestmentScreen(viewModel: InvestmentViewModel = viewModel()) {
     val context = LocalContext.current
 
     val lowRisk = stringResource(R.string.risk_low)
-    val shortDuration = stringResource(R.string.duration_short)
-    val incomeBelow = stringResource(R.string.income_below_25k)
 
-    var selectedRisk by remember(lowRisk) { mutableStateOf(lowRisk) }
-    var selectedDuration by remember(shortDuration) { mutableStateOf(shortDuration) }
-    var selectedIncome by remember(incomeBelow) { mutableStateOf(incomeBelow) }
+    var selectedRisk by remember { mutableStateOf<String?>(null) }
+    var selectedDuration by remember { mutableStateOf<String?>(null) }
+    var selectedIncome by remember { mutableStateOf<String?>(null) }
     var recommendation by remember { mutableStateOf<String?>(null) }
+    val isQuestionnaireComplete = selectedRisk != null && selectedDuration != null && selectedIncome != null
 
     BaseScreen(title = stringResource(R.string.investments_title)) { contentPadding ->
         LazyColumn(
@@ -109,10 +109,13 @@ fun InvestmentScreen(viewModel: InvestmentViewModel = viewModel()) {
             }
 
             item {
-                Card(modifier = Modifier.fillMaxWidth()) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f))
+                ) {
                     Column(
                         modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                        verticalArrangement = Arrangement.spacedBy(14.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.find_best_investment),
@@ -153,13 +156,14 @@ fun InvestmentScreen(viewModel: InvestmentViewModel = viewModel()) {
 
                         Button(
                             onClick = {
-                                recommendation = when (selectedRisk) {
+                                recommendation = when (selectedRisk ?: lowRisk) {
                                     lowRisk -> context.getString(R.string.digital_gold)
                                     context.getString(R.string.risk_medium) -> context.getString(R.string.mutual_fund)
                                     else -> context.getString(R.string.stock_market)
                                 }
                             },
-                            modifier = Modifier.fillMaxWidth()
+                            enabled = isQuestionnaireComplete,
+                            modifier = Modifier.fillMaxWidth(),
                         ) {
                             Text(stringResource(R.string.get_recommendation))
                         }
@@ -186,20 +190,29 @@ fun InvestmentScreen(viewModel: InvestmentViewModel = viewModel()) {
 private fun QuestionGroup(
     title: String,
     options: List<String>,
-    selected: String,
+    selected: String?,
     onSelect: (String) -> Unit
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Text(title, style = MaterialTheme.typography.titleMedium)
-        options.forEach { option ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onSelect(option) },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(selected = selected == option, onClick = { onSelect(option) })
-                Text(option)
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f))
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            options.forEach { option ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onSelect(option) }
+                        .padding(vertical = 2.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(selected = selected == option, onClick = { onSelect(option) })
+                    Text(option, style = MaterialTheme.typography.bodyLarge)
+                }
             }
         }
     }
