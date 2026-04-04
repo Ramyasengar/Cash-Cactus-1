@@ -39,7 +39,8 @@ import com.example.cashcactus.utils.UserSessionManager
 @Composable
 fun PrivacyPolicyScreen(
     navController: NavHostController,
-    isMandatory: Boolean = false
+    isMandatory: Boolean = false,
+    fromRegister: Boolean = false
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -84,7 +85,7 @@ fun PrivacyPolicyScreen(
                 Spacer(modifier = Modifier.height(20.dp))
             }
 
-            if (isMandatory) {
+            if (isMandatory || fromRegister) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = isChecked, onCheckedChange = { isChecked = it })
                     Text(stringResource(R.string.agree_policy))
@@ -95,9 +96,15 @@ fun PrivacyPolicyScreen(
                 Button(
                     onClick = {
                         PrivacyHelper.setAccepted(context)
-                        val next = if (UserSessionManager.isLoggedIn(context)) "home" else "login"
+                        val next = when {
+                            fromRegister -> "home"
+                            UserSessionManager.isLoggedIn(context) -> "home"
+                            else -> "login"
+                        }
                         navController.navigate(next) {
-                            popUpTo("privacy_mandatory") { inclusive = true }
+                            popUpTo(
+                                if (fromRegister) "privacy?fromRegister=true" else "privacy_mandatory"
+                            ) { inclusive = true }
                         }
                     },
                     enabled = isChecked && hasReachedBottom,

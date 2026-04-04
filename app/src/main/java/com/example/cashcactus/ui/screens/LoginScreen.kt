@@ -119,7 +119,9 @@ fun LoginScreen(
                                     if (task.isSuccessful) {
                                         val user = auth.currentUser
                                         viewModel.currentUserId = user?.uid?.hashCode() ?: 0
-                                        navController.navigate("home")
+                                        navController.navigate("home") {
+                                            popUpTo("login") { inclusive = true }
+                                        }
                                     } else {
                                         Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
                                     }

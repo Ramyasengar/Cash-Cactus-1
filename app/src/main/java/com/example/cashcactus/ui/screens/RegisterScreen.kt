@@ -109,7 +109,9 @@ fun RegisterScreen(
                                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
-                                        navController.navigate("login")
+                                        navController.navigate("privacy?fromRegister=true") {
+                                            popUpTo("register") { inclusive = true }
+                                        }
                                     } else {
                                         Toast.makeText(context, "Registration Failed", Toast.LENGTH_SHORT).show()
                                     }

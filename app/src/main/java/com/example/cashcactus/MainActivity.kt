@@ -1,6 +1,5 @@
 package com.example.cashcactus
 
-import android.content.Context
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -92,15 +91,8 @@ fun AppContent(
     onThemeChange: (Boolean) -> Unit
 ) {
     val navController = rememberNavController()
-    val context = LocalContext.current
 
-    val startDestination = when {
-        !isPrivacyAccepted(context) -> "privacy_mandatory"
-        !UserSessionManager.isLoggedIn(context) -> "login"
-        else -> "home"
-    }
-
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginScreen(navController, viewModel) }
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("register") { RegisterScreen(navController, viewModel) }
@@ -122,7 +114,21 @@ fun AppContent(
 
         composable("edit") { EditProfileScreen(navController, viewModel) }
         composable("privacy_mandatory") { PrivacyPolicyScreen(navController, isMandatory = true) }
-        composable("privacy") { PrivacyPolicyScreen(navController, isMandatory = false) }
+        composable(
+            route = "privacy?fromRegister={fromRegister}",
+            arguments = listOf(
+                navArgument("fromRegister") {
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
+        ) { backStackEntry ->
+            PrivacyPolicyScreen(
+                navController = navController,
+                isMandatory = false,
+                fromRegister = backStackEntry.arguments?.getBoolean("fromRegister") ?: false
+            )
+        }
 
         composable("investment") { InvestmentScreen() }
 
@@ -141,9 +147,4 @@ fun AppContent(
         composable("viewVault") { ViewVaultScreen(navController) }
         composable("emergency") { EmergencyScreen(navController) }
     }
-}
-
-fun isPrivacyAccepted(context: Context): Boolean {
-    val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    return prefs.getBoolean("privacy_accepted", false)
 }

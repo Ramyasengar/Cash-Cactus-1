@@ -5,15 +5,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val DarkColors = darkColorScheme(
     primary = CactusPrimary,
     secondary = CactusPrimaryDark,
     background = CactusBackgroundDark,
     surface = CactusSurfaceDark,
-    onPrimary = CactusOnLight,
-    onBackground = CactusOnDark,
-    onSurface = CactusOnDark
+    onPrimary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black
 )
 
 private val LightColors = lightColorScheme(
@@ -21,9 +22,9 @@ private val LightColors = lightColorScheme(
     secondary = CactusPrimary,
     background = CactusBackground,
     surface = CactusSurface,
-    onPrimary = CactusOnDark,
-    onBackground = CactusOnDark,
-    onSurface = CactusOnDark
+    onPrimary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black
 )
 
 @Composable
