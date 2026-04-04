@@ -158,12 +158,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             val list = dao.getExpenses(currentUserId)
 
-            food = list.find { it.title == "Food" }?.amount ?: 0.0
-            rent = list.find { it.title == "Rent" }?.amount ?: 0.0
-            medical = list.find { it.title == "Medical" }?.amount ?: 0.0
-            emi = list.find { it.title == "EMI" }?.amount ?: 0.0
-            additional = list.find { it.title == "Additional" }?.amount ?: 0.0
-            education = list.find { it.title == "Education" }?.amount ?: 0.0
+            if (list.isNotEmpty()) {
+                food = list.find { it.title == "Food" }?.amount ?: 0.0
+                rent = list.find { it.title == "Rent" }?.amount ?: 0.0
+                medical = list.find { it.title == "Medical" }?.amount ?: 0.0
+                emi = list.find { it.title == "EMI" }?.amount ?: 0.0
+                additional = list.find { it.title == "Additional" }?.amount ?: 0.0
+                education = list.find { it.title == "Education" }?.amount ?: 0.0
+            } else {
+                dao.getDashboard(currentUserId)?.let { dashboard ->
+                    food = dashboard.food
+                    rent = dashboard.rent
+                    medical = dashboard.medical
+                    emi = dashboard.emi
+                    additional = dashboard.additional
+                    education = dashboard.education
+                }
+            }
 
             // 🔥 ADD THIS BLOCK (MOST IMPORTANT)
 
@@ -336,13 +347,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun refreshAIPredictedExpenses() {
         viewModelScope.launch {
-            val expenseTransactions = dao.getTransactionsByTypeList("expense")
+            val expenseTransactions = dao.getAllTransactionsList()
+                .filter { it.type.equals("expense", ignoreCase = true) }
             aiPredictedExpenses = calculateCategoryTotals(expenseTransactions)
         }
     }
 
     private fun calculateCategoryTotals(transactions: List<Transaction>): List<Pair<String, Float>> {
-        if (transactions.isEmpty()) return defaultCategoryTotals()
+        if (transactions.isEmpty()) {
+            return listOf(
+                "Food" to food.toFloat(),
+                "Rent" to rent.toFloat(),
+                "Medical" to medical.toFloat(),
+                "EMI" to emi.toFloat(),
+                "Education" to education.toFloat(),
+                "Other" to additional.toFloat()
+            )
+        }
 
         val totals = mutableMapOf(
             "Food" to 0f,
