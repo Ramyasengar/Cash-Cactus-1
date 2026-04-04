@@ -1,3 +1,374 @@
 <resources>
+
     <string name="app_name">Cash Cactus</string>
+
+    <!-- AUTH -->
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="forgot_password">Forgot Password?</string>
+
+    <string name="contact_tagline">We’d love to hear from you!</string>
+
+
+    <string name="full_name">Full Name</string>
+
+    <string name="invalid_email">Enter valid email</string>
+    <string name="password_error">Password must be at least 6 characters</string>
+    <string name="login_failed">Invalid email or password</string>
+
+    <string name="login_success">Login Successful</string>
+    <string name="register_success">Registration Successful</string>
+    <string name="register_failed">Registration Failed</string>
+
+    <!-- GENERAL -->
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+
+    <!-- HOME -->
+    <string name="menu">Menu</string>
+    <string name="logout">Logout</string>
+    <string name="welcome_user">Welcome, %1$s 👋</string>
+    <string name="money_quote">Money grows well when managed well.</string>
+    <string name="open_dashboard">Open Dashboard</string>
+
+    <!-- DASHBOARD -->
+    <string name="dashboard_title">Setup Your Budget</string>
+    <string name="category">Category</string>
+    <string name="age">Age</string>
+    <string name="monthly_salary">Monthly Salary</string>
+    <string name="saving_type">Saving Type</string>
+    <string name="saving_value">Saving Value</string>
+
+    <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="expense_analysis">Analytics</string>
+    <string name="vault">Vault</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
+
+
+    <string name="student">Student</string>
+    <string name="working">Working</string>
+    <string name="business">Business</string>
+    <string name="housewife">Housewife</string>
+
+    <string name="amount">Amount</string>
+    <string name="percentage">Percentage</string>
+
+    <!-- EXPENSE -->
+    <string name="monthly_expenses">Monthly Expenses</string>
+    <string name="food">Food</string>
+    <string name="rent">Rent</string>
+    <string name="medical">Medical</string>
+    <string name="emi">EMI</string>
+    <string name="additional">Additional</string>
+    <string name="education">Education</string>
+
+    <!-- GRAPH -->
+    <string name="your_expenses">Your Expenses</string>
+    <string name="ai_optimized">AI Optimized</string>
+
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+
+    <string name="savings">Savings</string>
+    <string name="total">Total</string>
+    <string name="remain">Remain</string>
+
+    <!-- INPUT -->
+    <string name="expense_title">%1$s Expense</string>
+    <string name="enter_amount">Enter amount for %1$s</string>
+    <string name="invalid_amount">Enter valid numeric amount</string>
+
+    <!-- PROFILE -->
+    <string name="edit_profile">Edit Profile</string>
+    <string name="username">Username</string>
+    <string name="new_password">New Password (optional)</string>
+    <string name="invalid_email_format">Enter valid email format</string>
+    <string name="save_changes">Save Changes</string>
+
+    <!-- ABOUT -->
+    <string name="about_title">About Cash Cactus</string>
+    <string name="about_tagline">🌵 Smart. Secure. Simplified.</string>
+    <string name="about_desc">Cash Cactus is a next-generation personal finance solution.</string>
+    <string name="about_footer">Build a smarter and secure financial future.</string>
+
+    <!-- CONTACT -->
+    <string name="contact_title">Contact Us</string>
+
+    <string name="email_label">Email: %1$s</string>
+    <string name="phone_label">Phone: %1$s</string>
+    <string name="working_hours">Working Hours: %1$s</string>
+
+    <string name="email_value">support@cashcactus.com</string>
+    <string name="phone_value">+91 9876543210</string>
+    <string name="hours_value">9 AM - 6 PM</string>
+
+    <!-- HELP -->
+    <string name="help_support">Help &amp; Support</string>
+    <string name="getting_started">Getting Started</string>
+    <string name="getting_started_desc">Register or log in and set your budget.</string>
+
+    <string name="managing_expenses">Managing Expenses</string>
+    <string name="managing_expenses_desc">Track income and expenses easily.</string>
+
+    <string name="investment_guidance">Investment Guidance</string>
+    <string name="investment_guidance_desc">Explore smart investments.</string>
+
+    <string name="account_security">Account &amp; Security</string>
+    <string name="account_security_desc">Keep your account secure.</string>
+
+    <string name="troubleshooting">Troubleshooting</string>
+    <string name="troubleshooting_desc">Restart app or check internet.</string>
+
+    <string name="contact_support">Contact Support</string>
+    <string name="contact_support_desc">Email us for help anytime.</string>
+    <string name="section_tracking">Smart Financial Tracking</string>
+    <string name="tracking_desc">
+Tracks your income, expenses, and savings with visual charts.
+</string>
+
+    <string name="section_alerts">Spending Alerts</string>
+    <string name="alerts_desc">
+Get notified before exceeding your monthly limits.
+</string>
+
+    <string name="section_investment">Investment Insights</string>
+    <string name="investment_desc">
+Get suggestions for smarter investments.
+</string>
+
+    <string name="section_security">Security</string>
+    <string name="security_desc">
+Your financial data is protected securely.
+</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="about">About</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="amount_format">₹ %1$s</string>
+    <string name="privacy_title">Your Privacy Matters</string>
+
+    <string name="privacy_intro">
+Your privacy is our top priority. This policy explains how we collect, use and protect your data.
+</string>
+
+    <string name="privacy_collect">Information We Collect</string>
+    <string name="privacy_collect_1">Personal details like name, email and contact info.</string>
+    <string name="privacy_collect_2">Financial data like income, expenses and savings.</string>
+    <string name="privacy_collect_3">Secure transaction data (with user consent).</string>
+    <string name="privacy_collect_4">App usage data to improve experience.</string>
+
+    <string name="privacy_use">How We Use Your Information</string>
+    <string name="privacy_use_1">Track income, expenses and savings.</string>
+    <string name="privacy_use_2">Generate charts and insights.</string>
+    <string name="privacy_use_3">Send spending alerts.</string>
+    <string name="privacy_use_4">Provide investment suggestions.</string>
+    <string name="privacy_use_5">Improve app performance.</string>
+
+    <string name="privacy_security">Data Security</string>
+    <string name="privacy_security_desc">
+Your data is encrypted and protected using secure systems.
+</string>
+
+    <string name="privacy_sharing">Data Sharing</string>
+    <string name="privacy_sharing_1">We do NOT sell your data.</string>
+    <string name="privacy_sharing_2">Shared only for app functionality.</string>
+    <string name="privacy_sharing_3">Shared if required by law.</string>
+
+    <string name="privacy_control">User Control &amp; Consent</string>
+    <string name="privacy_control_1">Update or delete your data.</string>
+    <string name="privacy_control_2">Control integrations anytime.</string>
+    <string name="privacy_control_3">Withdraw consent.</string>
+
+    <string name="privacy_children">Children’s Privacy</string>
+    <string name="privacy_children_desc">
+This app is not intended for users under 18.
+</string>
+
+    <string name="privacy_update">Policy Updates</string>
+    <string name="privacy_update_desc">
+We may update this policy. Continued use means acceptance.
+</string>
+    <string name="login_failed_toast">Login failed</string>
+    <string name="enter_valid_details">Please enter valid details</string>
+    <string name="enter_email_first">Please enter email first</string>
+    <string name="enter_valid_email">Enter a valid email</string>
+    <string name="reset_email_sent">Password reset email sent</string>
+    <string name="reset_email_failed">Failed to send reset email</string>
+    <string name="no_account_register">Do not have an account? Register</string>
+    <string name="already_login">Already have an account? Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_account_login">Already have an account? Login</string>
+    <string name="setup_budget">Setup Your Budget</string>
+    <string name="select_category">Select Category</string>
+    <string name="monthly_income">Monthly Income</string>
+    <string name="want_save">Do you want to save?</string>
+    <string name="saving_percent">Saving %</string>
+    <string name="saving_amount">Saving Amount</string>
+    <string name="fill_required">Fill all required fields</string>
+    <string name="enter_saving">Enter saving details</string>
+    <string name="saved_success">Saved Successfully</string>
+    <string name="agree_policy">I agree to the Privacy Policy</string>
+    <string name="accept">Accept</string>
+
+    <string name="monthly_budget">Monthly Budget</string>
+    <string name="add_secure_data">➕ Add Secure Data</string>
+    <string name="vault_title_hint">Title (e.g. UPI ID)</string>
+    <string name="secret_info">Secret Information</string>
+    <string name="save_securely">Save Securely 🔐</string>
+    <string name="cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="all_fields_required">All fields required</string>
+    <string name="profile_updated">Profile Updated</string>
+    <string name="emergency_mode">Emergency Mode</string>
+    <string name="emergency_desc">Create a time-limited temporary PIN for a trusted contact.</string>
+
+    <string name="duration_5">5 minutes</string>
+    <string name="duration_15">15 minutes</string>
+    <string name="duration_30">30 minutes</string>
+    <string name="selected">selected</string>
+
+    <string name="temp_pin">Temporary 4-digit PIN</string>
+    <string name="generate_access">Generate temporary access</string>
+
+    <string name="pin_active">Temporary PIN is active. Share it only with someone you trust.</string>
+    <string name="pin_invalid">Temporary PIN must be exactly 4 digits.</string>
+
+    <string name="access_expires">Access expires in %1$d seconds.</string>
+
+    <string name="revoke_access">Revoke access</string>
+    <string name="access_revoked">Temporary access revoked.</string>
+
+    <string name="back_to_vault">Back to vault</string>
+
+    <string name="which_analysis">Which analysis do you prefer?</string>
+
+    <string name="use_my_graph">Use My Graph</string>
+    <string name="use_ai_graph">Use AI Graph</string>
+
+    <string name="user_selected">User graph selected</string>
+    <string name="ai_selected">AI graph selected</string>
+
+    <string name="reset_preference">Reset Preference</string>
+    <string name="preference_reset">Preference reset</string>
+
+    <string name="back_home">Back to Home</string>
+    <string name="reset_password">Reset Password 🔐</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="loading_data">Loading market data...</string>
+    <string name="live_price">Live Price</string>
+    <string name="best_choice">Best Choice for You</string>
+    <string name="retake_quiz">Retake Quiz 🎯</string>
+    <string name="risk_level">Risk Level</string>
+    <string name="ai_suggestion">AI Suggestion</string>
+    <string name="tips">Tips</string>
+
+    <string name="tip1">Diversify your portfolio</string>
+    <string name="tip2">Invest regularly</string>
+    <string name="tip3">Avoid emotional decisions</string>
+
+
+    <string name="reset_link_sent">Reset link sent 📩</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="investment_title">💰 Investment</string>
+    <string name="know_more">Know More</string>
+    <string name="quiz_title">Investment Quiz 🎯</string>
+
+    <string name="q1">Your risk tolerance?</string>
+    <string name="q2">Your goal?</string>
+    <string name="q3">Investment duration?</string>
+    <string name="q4">Your knowledge level?</string>
+
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
+
+    <string name="safety">Safety</string>
+    <string name="growth">Growth</string>
+
+    <string name="short_term">Short</string>
+    <string name="long_term">Long</string>
+
+    <string name="beginner">Beginner</string>
+    <string name="expert">Expert</string>
+    <string name="unlocking_vault">Unlocking vault...</string>
+    <string name="vault_title">Offline Vault</string>
+    <string name="vault_desc">Store UPI IDs, notes, contacts, and emergency instructions with local encryption.</string>
+
+    <string name="add_item">Add secure item</string>
+    <string name="view_items">View vault items</string>
+    <string name="emergency_sharing">Emergency sharing</string>
+    <string name="lock_vault">Lock vault</string>
+    <string name="create_pin">Create your vault PIN</string>
+    <string name="unlock_vault">Unlock secure vault</string>
+
+    <string name="set_pin_desc">Set a 4-digit PIN for offline emergency access.</string>
+    <string name="unlock_pin_desc">Use your saved PIN or a temporary emergency PIN.</string>
+
+    <string name="pin_label">4-digit PIN</string>
+    <string name="confirm_pin">Confirm PIN</string>
+
+    <string name="pin_length_error">PIN must be exactly 4 digits.</string>
+    <string name="pin_mismatch">PIN confirmation does not match.</string>
+    <string name="incorrect_pin">Incorrect PIN.</string>
+
+    <string name="save_pin">Save PIN</string>
+    <string name="unlock_vault_button">Unlock vault</string>
+    <string name="vault_items">Secure Vault Items</string>
+    <string name="no_data">No secure data stored yet.</string>
+    <string name="delete">Delete</string>
+    <string name="privacy_welcome">Your privacy is our top priority.</string>
+
+    <string name="privacy_desc">
+This Privacy Policy explains how our app collects, uses, stores, and protects your personal and financial information.
+</string>
+
+    <string name="info_collect">
+1. Information We Collect
+We collect only the information necessary to provide a smooth and secure experience:
+• Personal details such as name, email address, and contact information
+• Financial data including income, expenses, and savings
+• Transaction data via banking APIs (with user consent)
+• App usage data to improve performance
+</string>
+
+    <string name="data_use">
+2. How We Use Your Information
+• Track income, expenses, and savings
+• Generate charts and financial insights
+• Monitor budgets and send alerts
+• Provide investment recommendations
+• Improve app performance and security
+</string>
+
+    <string name="data_security">
+3. Data Security
+We use industry-standard security measures. All sensitive data is encrypted and processed securely.
+</string>
+
+    <string name="permissions">
+4. Data Sharing
+We do not sell your data. It is shared only with trusted services or when required by law.
+</string>
+
+    <string name="user_control">
+5. User Control &amp; Consent
+You can review, update, or delete your data anytime and manage permissions.
+</string>
+
+    <string name="updates">
+6. Policy Updates
+We may update this policy. Continued use means acceptance.
+</string>
+    <string name="save_expense">Save Expense</string>
+    <string name="category_food">Food</string>
+    <string name="transactions">Transactions</string>
+    <string name="no_transactions">No transactions yet</string>
+
 </resources>

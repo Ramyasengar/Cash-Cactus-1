@@ -1,0 +1,373 @@
+<resources>
+
+    <string name="app_name">कैश कैक्टस</string>
+
+    <!-- AUTH -->
+    <string name="login">लॉगिन</string>
+    <string name="email">ईमेल</string>
+    <string name="password">पासवर्ड</string>
+    <string name="register">रजिस्टर</string>
+    <string name="forgot_password">पासवर्ड भूल गए?</string>
+
+    <string name="invalid_email">सही ईमेल दर्ज करें</string>
+    <string name="password_error">पासवर्ड कम से कम 6 अक्षरों का होना चाहिए</string>
+    <string name="login_failed">ईमेल या पासवर्ड गलत है</string>
+
+    <string name="login_success">लॉगिन सफल</string>
+    <string name="register_success">पंजीकरण सफल</string>
+    <string name="register_failed">पंजीकरण विफल</string>
+
+    <!-- GENERAL -->
+    <string name="back">वापस</string>
+    <string name="next">आगे बढ़ें</string>
+    <string name="save">सहेजें</string>
+
+    <!-- HOME -->
+    <string name="menu">मेनू</string>
+    <string name="logout">लॉगआउट</string>
+    <string name="welcome_user">स्वागत है, %1$s 👋</string>
+    <string name="money_quote">पैसा सही प्रबंधन से बढ़ता है।</string>
+    <string name="open_dashboard">डैशबोर्ड खोलें</string>
+
+    <!-- DASHBOARD -->
+    <string name="dashboard_title">अपना बजट सेट करें</string>
+    <string name="category">श्रेणी</string>
+    <string name="age">आयु</string>
+    <string name="monthly_salary">मासिक वेतन</string>
+    <string name="saving_type">बचत प्रकार</string>
+    <string name="saving_value">बचत मान</string>
+
+    <string name="student">छात्र</string>
+    <string name="working">नौकरी</string>
+    <string name="business">व्यवसाय</string>
+    <string name="housewife">गृहिणी</string>
+
+    <string name="amount">राशि</string>
+    <string name="percentage">प्रतिशत</string>
+
+    <!-- EXPENSE -->
+    <string name="monthly_expenses">मासिक खर्च</string>
+    <string name="food">खाना</string>
+    <string name="rent">किराया</string>
+    <string name="medical">चिकित्सा</string>
+    <string name="emi">ईएमआई</string>
+    <string name="additional">अतिरिक्त</string>
+    <string name="education">शिक्षा</string>
+
+    <!-- GRAPH -->
+    <string name="expense_analysis">खर्च विश्लेषण</string>
+    <string name="your_expenses">आपके खर्च</string>
+    <string name="ai_optimized">AI द्वारा अनुकूलित</string>
+
+    <string name="daily">दैनिक</string>
+    <string name="weekly">साप्ताहिक</string>
+    <string name="monthly">मासिक</string>
+
+    <string name="savings">बचत</string>
+    <string name="total">कुल</string>
+    <string name="remain">शेष</string>
+
+    <!-- INPUT -->
+    <string name="expense_title">%1$s खर्च</string>
+    <string name="enter_amount">%1$s के लिए राशि दर्ज करें</string>
+    <string name="invalid_amount">सही राशि दर्ज करें</string>
+
+    <!-- PROFILE -->
+    <string name="edit_profile">प्रोफाइल संपादित करें</string>
+    <string name="username">उपयोगकर्ता नाम</string>
+    <string name="new_password">नया पासवर्ड (वैकल्पिक)</string>
+    <string name="invalid_email_format">सही ईमेल दर्ज करें</string>
+    <string name="save_changes">परिवर्तन सहेजें</string>
+
+    <!-- ABOUT -->
+    <string name="about_title">कैश कैक्टस के बारे में</string>
+    <string name="about_tagline">🌵 स्मार्ट। सुरक्षित। सरल।</string>
+    <string name="about_desc">कैश कैक्टस एक आधुनिक वित्तीय ऐप है।</string>
+    <string name="about_footer">अपने भविष्य को सुरक्षित बनाएं।</string>
+
+    <!-- CONTACT -->
+    <string name="contact_title">संपर्क करें</string>
+    <string name="email_label">ईमेल: %1$s</string>
+    <string name="phone_label">फोन: %1$s</string>
+    <string name="working_hours">कार्य समय: %1$s</string>
+
+    <string name="email_value">support@cashcactus.com</string>
+    <string name="phone_value">+91 9876543210</string>
+    <string name="hours_value">सुबह 9 बजे - शाम 6 बजे</string>
+
+    <!-- HELP -->
+    <string name="help_support">सहायता और समर्थन</string>
+    <string name="getting_started">शुरुआत करें</string>
+    <string name="getting_started_desc">रजिस्टर करें और बजट सेट करें।</string>
+
+    <string name="managing_expenses">खर्च प्रबंधन</string>
+    <string name="managing_expenses_desc">आय और खर्च ट्रैक करें।</string>
+
+    <string name="investment_guidance">निवेश मार्गदर्शन</string>
+    <string name="investment_guidance_desc">बेहतर निवेश विकल्प जानें।</string>
+
+    <string name="account_security">खाता और सुरक्षा</string>
+    <string name="account_security_desc">अपनी जानकारी सुरक्षित रखें।</string>
+
+    <string name="troubleshooting">समस्या समाधान</string>
+    <string name="troubleshooting_desc">ऐप रीस्टार्ट करें।</string>
+
+    <string name="contact_support">संपर्क सहायता</string>
+    <string name="contact_support_desc">किसी भी समय ईमेल करें।</string>
+    <string name="section_tracking">📊 स्मार्ट वित्तीय ट्रैकिंग</string>
+    <string name="tracking_desc">
+यह ऐप आपकी आय, खर्च और बचत को ट्रैक करता है और ग्राफ में दिखाता है।
+</string>
+
+    <string name="section_alerts">🚨 खर्च अलर्ट</string>
+    <string name="alerts_desc">
+यह ऐप आपको पहले ही चेतावनी देता है जब खर्च सीमा से ज्यादा होने वाला होता है।
+</string>
+
+    <string name="section_investment">📈 निवेश सुझाव</string>
+    <string name="investment_desc">
+यह आपको बेहतर निवेश के लिए सुझाव देता है।
+</string>
+
+    <string name="section_security">🔐 सुरक्षा</string>
+    <string name="security_desc">
+यह ऐप आपकी जानकारी को सुरक्षित रखता है।
+</string>
+    <string name="contact_us">संपर्क करें</string>
+    <string name="about">हमारे बारे में</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="amount_format">₹ %1$s</string>
+    <string name="privacy_title">🔐 आपकी गोपनीयता महत्वपूर्ण है</string>
+
+    <string name="privacy_intro">
+आपकी गोपनीयता हमारी प्राथमिकता है। यह नीति बताती है कि हम डेटा कैसे उपयोग करते हैं।
+</string>
+
+    <string name="privacy_collect">हम कौन सी जानकारी एकत्र करते हैं</string>
+    <string name="privacy_collect_1">नाम, ईमेल जैसी व्यक्तिगत जानकारी।</string>
+    <string name="privacy_collect_2">आय, खर्च और बचत डेटा।</string>
+    <string name="privacy_collect_3">सुरक्षित लेन-देन डेटा (अनुमति के साथ)।</string>
+    <string name="privacy_collect_4">ऐप उपयोग डेटा।</string>
+
+    <string name="privacy_use">हम जानकारी का उपयोग कैसे करते हैं</string>
+    <string name="privacy_use_1">आय और खर्च ट्रैक करना।</string>
+    <string name="privacy_use_2">चार्ट और विश्लेषण बनाना।</string>
+    <string name="privacy_use_3">अलर्ट भेजना।</string>
+    <string name="privacy_use_4">निवेश सुझाव देना।</string>
+    <string name="privacy_use_5">ऐप सुधारना।</string>
+
+    <string name="privacy_security">डेटा सुरक्षा</string>
+    <string name="privacy_security_desc">
+आपका डेटा सुरक्षित और एन्क्रिप्टेड रहता है।
+</string>
+
+    <string name="privacy_sharing">डेटा साझा करना</string>
+    <string name="privacy_sharing_1">हम डेटा नहीं बेचते।</string>
+    <string name="privacy_sharing_2">केवल आवश्यक सेवाओं के लिए साझा।</string>
+    <string name="privacy_sharing_3">कानून के अनुसार साझा।</string>
+
+    <string name="privacy_control">उपयोगकर्ता नियंत्रण</string>
+    <string name="privacy_control_1">डेटा अपडेट या हटाएं।</string>
+    <string name="privacy_control_2">इंटीग्रेशन नियंत्रित करें।</string>
+    <string name="privacy_control_3">अनुमति वापस लें।</string>
+
+    <string name="privacy_children">बच्चों की गोपनीयता</string>
+    <string name="privacy_children_desc">
+यह ऐप 18 वर्ष से कम आयु के लिए नहीं है।
+</string>
+
+    <string name="home">होम</string>
+    <string name="dashboard">डैशबोर्ड</string>
+    <string name="vault">वॉल्ट</string>
+    <string name="dark_mode">डार्क मोड</string>
+    <string name="light_mode">लाइट मोड</string>
+    <string name="privacy_update">नीति अपडेट</string>
+    <string name="privacy_update_desc">
+नीति बदल सकती है। उपयोग जारी रखना स्वीकृति है।
+</string>
+
+
+    <string name="login_failed_toast">लॉगिन असफल</string>
+    <string name="enter_valid_details">कृपया सही जानकारी दर्ज करें</string>
+    <string name="enter_email_first">पहले ईमेल दर्ज करें</string>
+    <string name="enter_valid_email">मान्य ईमेल दर्ज करें</string>
+    <string name="reset_email_sent">पासवर्ड रीसेट ईमेल भेजा गया</string>
+    <string name="reset_email_failed">रीसेट ईमेल भेजने में विफल</string>
+    <string name="no_account_register">खाता नहीं है? रजिस्टर करें</string>
+
+
+    <string name="setup_budget">अपना बजट सेट करें 💰</string>
+    <string name="select_category">श्रेणी चुनें *</string>
+
+    <string name="monthly_income">मासिक आय *</string>
+    <string name="monthly_budget">मासिक बजट *</string>
+    <string name="want_save">क्या आप बचत करना चाहते हैं?</string>
+
+
+    <string name="saving_percent">बचत %</string>
+    <string name="saving_amount">बचत राशि</string>
+    <string name="fill_required">सभी आवश्यक फ़ील्ड भरें</string>
+    <string name="enter_saving">बचत विवरण दर्ज करें</string>
+    <string name="saved_success">सफलतापूर्वक सहेजा गया</string>
+
+    <string name="already_login">पहले से खाता है? लॉगिन करें</string>
+    <string name="create_account">खाता बनाएं</string>
+    <string name="contact_tagline">हम आपसे सुनना पसंद करेंगे!</string>
+    <string name="full_name">पूरा नाम</string>
+    <string name="already_account_login">पहले से खाता है? लॉगिन करें</string>
+    <string name="agree_policy">मैं गोपनीयता नीति से सहमत हूँ</string>
+    <string name="accept">स्वीकार करें</string>
+    <string name="add_secure_data">➕ सुरक्षित डेटा जोड़ें</string>
+    <string name="vault_title_hint">शीर्षक (जैसे UPI ID)</string>
+    <string name="secret_info">गुप्त जानकारी</string>
+    <string name="save_securely">सुरक्षित रूप से सेव करें 🔐</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="name">Name</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="all_fields_required">All fields required</string>
+    <string name="profile_updated">Profile Updated</string>
+    <string name="emergency_mode">इमरजेंसी मोड</string>
+    <string name="emergency_desc">विश्वसनीय व्यक्ति के लिए सीमित समय का अस्थायी PIN बनाएं।</string>
+
+    <string name="duration_5">5 मिनट</string>
+    <string name="duration_15">15 मिनट</string>
+    <string name="duration_30">30 मिनट</string>
+    <string name="selected">चयनित</string>
+
+    <string name="temp_pin">अस्थायी 4-अंकों का PIN</string>
+    <string name="generate_access">अस्थायी एक्सेस बनाएं</string>
+
+    <string name="pin_active">अस्थायी PIN सक्रिय है। इसे केवल भरोसेमंद व्यक्ति के साथ साझा करें।</string>
+    <string name="pin_invalid">PIN ठीक 4 अंकों का होना चाहिए।</string>
+
+    <string name="access_expires">एक्सेस %1$d सेकंड में समाप्त होगा।</string>
+
+    <string name="revoke_access">एक्सेस हटाएं</string>
+    <string name="access_revoked">अस्थायी एक्सेस हटा दिया गया है।</string>
+
+    <string name="back_to_vault">वॉल्ट पर वापस जाएं</string>
+
+    <string name="which_analysis">आप कौन सा विश्लेषण पसंद करते हैं?</string>
+
+    <string name="use_my_graph">मेरा ग्राफ उपयोग करें</string>
+    <string name="use_ai_graph">AI ग्राफ उपयोग करें</string>
+
+    <string name="user_selected">यूज़र ग्राफ चुना गया</string>
+    <string name="ai_selected">AI ग्राफ चुना गया</string>
+
+    <string name="reset_preference">प्रेफरेंस रीसेट करें</string>
+    <string name="preference_reset">प्रेफरेंस रीसेट हो गया</string>
+
+    <string name="back_home">होम पर वापस जाएं</string>
+    <string name="reset_password">पासवर्ड रीसेट करें 🔐</string>
+    <string name="enter_email">अपना ईमेल दर्ज करें</string>
+    <string name="send_reset_link">रीसेट लिंक भेजें</string>
+    <string name="loading_data">मार्केट डेटा लोड हो रहा है...</string>
+    <string name="live_price">लाइव कीमत</string>
+    <string name="best_choice">आपके लिए सबसे अच्छा विकल्प</string>
+    <string name="retake_quiz">फिर से क्विज़ दें 🎯</string>
+    <string name="risk_level">जोखिम स्तर</string>
+    <string name="ai_suggestion">AI सुझाव</string>
+    <string name="tips">टिप्स</string>
+
+    <string name="tip1">अपने निवेश को विविध बनाएं</string>
+    <string name="tip2">नियमित निवेश करें</string>
+    <string name="tip3">भावनात्मक निर्णय से बचें</string>
+
+    <string name="reset_link_sent">रीसेट लिंक भेज दिया गया 📩</string>
+    <string name="error_occurred">त्रुटि हुई</string>
+    <string name="investment_title">💰 निवेश</string>
+    <string name="know_more">और जानें</string>
+    <string name="quiz_title">निवेश क्विज़ 🎯</string>
+
+    <string name="q1">आपका जोखिम स्तर?</string>
+    <string name="q2">आपका लक्ष्य?</string>
+    <string name="q3">निवेश अवधि?</string>
+    <string name="q4">आपका ज्ञान स्तर?</string>
+
+    <string name="low">कम</string>
+    <string name="medium">मध्यम</string>
+    <string name="high">उच्च</string>
+
+    <string name="safety">सुरक्षा</string>
+    <string name="growth">विकास</string>
+
+    <string name="short_term">कम समय</string>
+    <string name="long_term">लंबा समय</string>
+
+    <string name="beginner">शुरुआती</string>
+    <string name="expert">विशेषज्ञ</string>
+    <string name="unlocking_vault">वॉल्ट अनलॉक हो रहा है...</string>
+    <string name="vault_title">ऑफलाइन वॉल्ट</string>
+    <string name="vault_desc">UPI ID, नोट्स, संपर्क और इमरजेंसी निर्देश सुरक्षित रूप से स्टोर करें।</string>
+
+    <string name="add_item">सुरक्षित आइटम जोड़ें</string>
+    <string name="view_items">वॉल्ट आइटम देखें</string>
+    <string name="emergency_sharing">इमरजेंसी शेयरिंग</string>
+    <string name="lock_vault">वॉल्ट लॉक करें</string>
+    <string name="create_pin">अपना वॉल्ट PIN बनाएं</string>
+    <string name="unlock_vault">सुरक्षित वॉल्ट अनलॉक करें</string>
+
+    <string name="set_pin_desc">ऑफलाइन इमरजेंसी एक्सेस के लिए 4 अंकों का PIN सेट करें।</string>
+    <string name="unlock_pin_desc">अपने सेव किए गए PIN या अस्थायी PIN का उपयोग करें।</string>
+
+    <string name="pin_label">4 अंकों का PIN</string>
+    <string name="confirm_pin">PIN की पुष्टि करें</string>
+
+    <string name="pin_length_error">PIN ठीक 4 अंकों का होना चाहिए।</string>
+    <string name="pin_mismatch">PIN मेल नहीं खाता।</string>
+    <string name="incorrect_pin">गलत PIN।</string>
+
+    <string name="save_pin">PIN सेव करें</string>
+    <string name="unlock_vault_button">वॉल्ट अनलॉक करें</string>
+    <string name="vault_items">सुरक्षित वॉल्ट आइटम</string>
+    <string name="no_data">अभी तक कोई सुरक्षित डेटा नहीं है।</string>
+    <string name="delete">डिलीट करें</string>
+    <string name="privacy_welcome">आपकी गोपनीयता हमारी सर्वोच्च प्राथमिकता है।</string>
+
+    <string name="privacy_desc">
+यह प्राइवेसी पॉलिसी बताती है कि हमारा ऐप आपकी जानकारी को कैसे एकत्र, उपयोग और सुरक्षित रखता है।
+</string>
+
+    <string name="info_collect">
+1. हम कौन सी जानकारी एकत्र करते हैं
+• नाम, ईमेल और संपर्क जानकारी
+• आय, खर्च और बचत डेटा
+• बैंक API से लेन-देन डेटा (अनुमति से)
+• ऐप उपयोग डेटा
+</string>
+
+    <string name="data_use">
+2. जानकारी का उपयोग
+• खर्च और बचत का विश्लेषण
+• चार्ट और रिपोर्ट बनाना
+• बजट अलर्ट भेजना
+• निवेश सुझाव देना
+• ऐप सुधार करना
+</string>
+
+    <string name="data_security">
+3. डेटा सुरक्षा
+हम एन्क्रिप्शन और सुरक्षित सिस्टम का उपयोग करते हैं।
+</string>
+
+    <string name="permissions">
+4. डेटा साझा करना
+हम आपका डेटा नहीं बेचते। केवल आवश्यक सेवाओं या कानून के अनुसार साझा किया जाता है।
+</string>
+
+    <string name="user_control">
+5. उपयोगकर्ता नियंत्रण
+आप अपनी जानकारी को बदल या हटा सकते हैं।
+</string>
+
+    <string name="updates">
+6. नीति अपडेट
+यह नीति समय-समय पर अपडेट हो सकती है।
+</string>
+    <string name="save_expense">खर्च सेव करें</string>
+    <string name="category_food">खाना</string>
+    <string name="transactions">लेन-देन</string>
+    <string name="no_transactions">अभी कोई लेन-देन नहीं है</string>
+
+</resources>
