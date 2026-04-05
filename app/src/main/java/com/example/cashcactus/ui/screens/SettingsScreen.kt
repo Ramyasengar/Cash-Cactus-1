@@ -1,6 +1,6 @@
 package com.example.cashcactus.ui.screens
 
-import android.app.Activity
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,22 +26,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import android.widget.Toast
 import androidx.navigation.NavHostController
 import com.example.cashcactus.R
 import com.example.cashcactus.ui.components.CashCactusCard
 import com.example.cashcactus.ui.components.CashCactusScreenScaffold
 import com.example.cashcactus.utils.LanguageManager
-import com.example.cashcactus.utils.UserSessionManager
-import com.google.firebase.auth.FirebaseAuth
+import com.example.cashcactus.viewmodel.MainViewModel
 
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
+    viewModel: MainViewModel,
     isDarkTheme: Boolean,
-    onThemeChange: (Boolean) -> Unit
+    onThemeChange: (Boolean) -> Unit,
+    onLanguageChange: (String) -> Unit
 ) {
     val context = LocalContext.current
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var deleteInProgress by remember { mutableStateOf(false) }
     var selectedLanguage by remember {
         mutableStateOf(LanguageManager.getSavedLanguage(context))
     }
@@ -93,7 +96,7 @@ fun SettingsScreen(
                                         if (selectedLanguage != languageCode) {
                                             selectedLanguage = languageCode
                                             LanguageManager.setLanguage(context, languageCode)
-                                            (context as? Activity)?.recreate()
+                                            onLanguageChange(languageCode)
                                         }
                                     }
                                 )
@@ -128,12 +131,24 @@ fun SettingsScreen(
             text = { Text(stringResource(R.string.delete_account_confirmation)) },
             confirmButton = {
                 TextButton(
+                    enabled = !deleteInProgress,
                     onClick = {
-                        UserSessionManager.clearSession(context)
-                        FirebaseAuth.getInstance().signOut()
-                        showDeleteDialog = false
-                        navController.navigate("login") {
-                            popUpTo(0) { inclusive = true }
+                        if (deleteInProgress) return@TextButton
+                        deleteInProgress = true
+                        viewModel.deleteAccount { success, errorMessage ->
+                            deleteInProgress = false
+                            if (success) {
+                                showDeleteDialog = false
+                                navController.navigate("login") {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    errorMessage ?: context.getString(R.string.delete_account_failed),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
                     }
                 ) {

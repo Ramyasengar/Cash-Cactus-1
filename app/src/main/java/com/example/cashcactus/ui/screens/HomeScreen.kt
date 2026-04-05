@@ -43,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.cashcactus.R
@@ -65,35 +66,35 @@ fun HomeScreen(
             ModalDrawerSheet(drawerContainerColor = DashboardBackground, drawerContentColor = MaterialTheme.colorScheme.onBackground) {
                 Spacer(modifier = Modifier.height(20.dp))
                 Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                    Text("Cash Cactus", style = MaterialTheme.typography.headlineSmall)
-                    Text("Manage your money smartly", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineSmall)
+                    Text(stringResource(R.string.home_tagline), style = MaterialTheme.typography.bodyMedium)
                 }
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                DrawerItem("Edit Profile", Icons.Default.Edit) { navController.navigate("edit") }
-                DrawerItem("About", Icons.Default.Info) { navController.navigate("about") }
-                DrawerItem("Help & Support", Icons.Default.Help) { navController.navigate("help") }
-                DrawerItem("Privacy Policy", Icons.Default.Lock) { navController.navigate("privacy") }
-                DrawerItem("Contact Us", Icons.Default.Call) { navController.navigate("contact") }
+                DrawerItem(stringResource(R.string.edit_profile), Icons.Default.Edit) { navController.navigate("edit") }
+                DrawerItem(stringResource(R.string.about), Icons.Default.Info) { navController.navigate("about") }
+                DrawerItem(stringResource(R.string.help_support), Icons.Default.Help) { navController.navigate("help") }
+                DrawerItem(stringResource(R.string.privacy_policy), Icons.Default.Lock) { navController.navigate("privacy") }
+                DrawerItem(stringResource(R.string.contact_us), Icons.Default.Call) { navController.navigate("contact") }
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                DrawerItem("Settings", Icons.Default.Settings) {
+                DrawerItem(stringResource(R.string.settings), Icons.Default.Settings) {
                     navController.navigate("settings")
                 }
-                DrawerItem("Logout", Icons.AutoMirrored.Filled.ExitToApp) { viewModel.logout(navController) }
+                DrawerItem(stringResource(R.string.logout), Icons.AutoMirrored.Filled.ExitToApp) { viewModel.logout(navController) }
             }
         }
     ) {
         BaseScreen(
-            title = "Cash Cactus",
+            title = stringResource(R.string.app_name),
             navigationIcon = {
                 IconButton(onClick = { scope.launch { drawerState.open() } }) { Icon(Icons.Default.Menu, null) }
             },
             bottomBar = {
                 NavigationBar(containerColor = DashboardBackground) {
-                    NavigationBarItem(selected = false, onClick = { navController.navigate("home") }, icon = { Icon(Icons.Default.Home, null) }, label = { Text("Home") })
-                    NavigationBarItem(selected = false, onClick = { navController.navigate("dashboard") }, icon = { Icon(Icons.Default.AccountBalance, null) }, label = { Text("Dashboard") })
-                    NavigationBarItem(selected = false, onClick = { navController.navigate("investment") }, icon = { Icon(Icons.Default.TrendingUp, null) }, label = { Text("Invest") })
-                    NavigationBarItem(selected = false, onClick = { navController.navigate("expenseGraph") }, icon = { Icon(Icons.Default.BarChart, null) }, label = { Text("Analysis") })
-                    NavigationBarItem(selected = false, onClick = { navController.navigate("vaultEntry") }, icon = { Icon(Icons.Default.Lock, null) }, label = { Text("Vault") })
+                    NavigationBarItem(selected = false, onClick = { navController.navigate("home") }, icon = { Icon(Icons.Default.Home, null) }, label = { Text(stringResource(R.string.home)) })
+                    NavigationBarItem(selected = false, onClick = { navController.navigate("dashboard") }, icon = { Icon(Icons.Default.AccountBalance, null) }, label = { Text(stringResource(R.string.dashboard)) })
+                    NavigationBarItem(selected = false, onClick = { navController.navigate("investment") }, icon = { Icon(Icons.Default.TrendingUp, null) }, label = { Text(stringResource(R.string.nav_invest)) })
+                    NavigationBarItem(selected = false, onClick = { navController.navigate("expenseGraph") }, icon = { Icon(Icons.Default.BarChart, null) }, label = { Text(stringResource(R.string.nav_analysis)) })
+                    NavigationBarItem(selected = false, onClick = { navController.navigate("vaultEntry") }, icon = { Icon(Icons.Default.Lock, null) }, label = { Text(stringResource(R.string.vault)) })
                 }
             }
         ) { contentPadding ->
@@ -108,24 +109,24 @@ fun HomeScreen(
                 Column(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
                     Card(colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)), modifier = Modifier.fillMaxWidth().animateContentSize()) {
                         Column(modifier = Modifier.padding(20.dp)) {
-                            Text("Your Balance", style = MaterialTheme.typography.titleMedium)
+                            Text(stringResource(R.string.your_balance), style = MaterialTheme.typography.titleMedium)
                             Text("₹${viewModel.monthlySalary.toInt()}", style = MaterialTheme.typography.headlineLarge)
                         }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Card(colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)), modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text("Savings"); Text("${viewModel.savingsPercent}%")
+                            Text(stringResource(R.string.savings)); Text("${viewModel.savingsPercent}%")
                             Spacer(modifier = Modifier.height(8.dp))
-                            Text("Trend"); Text(viewModel.trend)
+                            Text(stringResource(R.string.trend_label)); Text(viewModel.trend)
                         }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Card(colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)), modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text("Smart Tip")
+                            Text(stringResource(R.string.smart_tip_title))
                             Spacer(modifier = Modifier.height(6.dp))
-                            Text("Save at least 20% of your income every month")
+                            Text(stringResource(R.string.smart_tip_save_percent))
                         }
                     }
                 }

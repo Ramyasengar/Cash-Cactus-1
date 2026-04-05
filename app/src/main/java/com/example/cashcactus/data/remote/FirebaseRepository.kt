@@ -11,4 +11,8 @@ object FirebaseRepository {
             .document(userId)
             .set(data)
     }
+
+    fun deleteUserDocument(userId: String) {
+        db.collection("users").document(userId).delete()
+    }
 }

@@ -37,6 +37,9 @@ interface AppDao {
         oldEmail: String
     )
 
+    @Query("DELETE FROM users WHERE id = :userId")
+    suspend fun deleteUserById(userId: Int)
+
     // ---------- EXPENSE ----------
 
     @Insert
@@ -54,6 +57,8 @@ interface AppDao {
     @Query("SELECT * FROM expenses WHERE userId = :userId AND date >= :startOfMonth")
     suspend fun getMonthlyExpenses(userId: Int, startOfMonth: Long): List<Expense>
 
+    @Query("DELETE FROM expenses WHERE userId = :userId")
+    suspend fun deleteExpensesByUserId(userId: Int)
 
     // ---------- DASHBOARD ----------
 
@@ -62,6 +67,10 @@ interface AppDao {
 
     @Query("SELECT * FROM DashboardData WHERE userId = :userId LIMIT 1")
     suspend fun getDashboard(userId: Int): DashboardData?
+
+    @Query("DELETE FROM DashboardData WHERE userId = :userId")
+    suspend fun deleteDashboardByUserId(userId: Int)
+
     // ================= TRANSACTION =================
 
     @Insert
@@ -69,6 +78,15 @@ interface AppDao {
 
     @Delete
     suspend fun deleteTransaction(transaction: com.example.cashcactus.data.model.Transaction)
+
+    @Update
+    suspend fun updateTransaction(transaction: Transaction)
+
+    @Query("DELETE FROM transactions WHERE type = 'expense' AND origin = :origin")
+    suspend fun deleteTransactionsByOrigin(origin: String)
+
+    @Query("DELETE FROM transactions")
+    suspend fun deleteAllTransactions()
 
     @Query("SELECT * FROM transactions ORDER BY id DESC")
     fun getAllTransactions(): kotlinx.coroutines.flow.Flow<List<Transaction>>

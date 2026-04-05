@@ -3,8 +3,10 @@ package com.example.cashcactus.ui.screens
 import android.graphics.Paint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,11 +14,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -28,11 +33,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.cashcactus.R
+import com.example.cashcactus.data.model.TRANSACTION_ORIGIN_MONTHLY
 import com.example.cashcactus.data.model.Transaction
 import com.example.cashcactus.ui.components.CashCactusCard
 import com.example.cashcactus.ui.components.CashCactusScreenScaffold
 import com.example.cashcactus.viewmodel.MainViewModel
 import com.example.cashcactus.viewmodel.TransactionViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun ExpenseGraphScreen(
@@ -60,17 +69,15 @@ fun ExpenseGraphScreen(
         .mapValues { (_, list) -> list.sumOf { it.amount }.toFloat() }
         .toList()
         .sortedByDescending { it.second }
-    val aiGraphData = buildOptimizedExpenseMap(graphData.toMap())
-        .toList()
-        .sortedByDescending { it.second }
-    val selectedGraphPreference = getGraphPreference(context)
-    val selectedGraphData = when (selectedGraphPreference) {
-        GRAPH_AI -> aiGraphData
-        GRAPH_USER -> graphData
-        else -> emptyList()
-    }
 
-    val maxValue = selectedGraphData.maxOfOrNull { it.second } ?: 1f
+    val maxValue = graphData.maxOfOrNull { it.second }?.takeIf { it > 0f } ?: 1f
+
+    val dateFormat = remember {
+        SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+    }
+    val sortedExpenseRows = remember(expenseTransactions) {
+        expenseTransactions.sortedWith(compareBy({ it.category.lowercase(Locale.getDefault()) }, { it.date }))
+    }
 
     CashCactusScreenScaffold(title = stringResource(R.string.expense_analysis)) { contentPadding ->
         Column(
@@ -81,27 +88,84 @@ fun ExpenseGraphScreen(
         ) {
             CashCactusCard(modifier = Modifier.fillMaxWidth()) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Budget Limit: ₹${budgetLimit.toInt()}", style = MaterialTheme.typography.titleMedium)
-                    Text("Remaining Budget: ₹${remainingBudget.toInt()}", style = MaterialTheme.typography.titleMedium)
-                    Text("Savings: ₹${savings.toInt()}", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.budget_limit_line, budgetLimit.toInt()), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.remaining_budget_line, remainingBudget.toInt()), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.savings_line, savings.toInt()), style = MaterialTheme.typography.titleMedium)
                 }
             }
 
-            if (selectedGraphData.isEmpty()) {
+            if (graphData.isEmpty()) {
                 CashCactusCard(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = stringResource(R.string.select_plan_from_dashboard),
+                        text = stringResource(R.string.no_expenses_for_period),
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
             } else {
-                GraphCard(
-                    data = selectedGraphData,
-                    animatedValues = selectedGraphData.map { animateFloatAsState(it.second).value },
-                    maxValue = maxValue,
-                    barColor = if (selectedGraphPreference == GRAPH_AI) Color(0xFF26A69A) else Color(0xFF7E57C2)
+                Text(
+                    text = stringResource(R.string.your_expenses),
+                    style = MaterialTheme.typography.titleMedium
                 )
+                GraphCard(
+                    data = graphData,
+                    animatedValues = graphData.map { animateFloatAsState(it.second).value },
+                    maxValue = maxValue,
+                    barColor = Color(0xFF7E57C2)
+                )
+            }
+
+            if (sortedExpenseRows.isNotEmpty()) {
+                CashCactusCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.monthly_expense_entries),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            text = stringResource(R.string.tap_row_to_edit_expense),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                        )
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                        sortedExpenseRows.forEach { row ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        if (row.origin == TRANSACTION_ORIGIN_MONTHLY) {
+                                            navController.navigate("expenseCategory/${viewModel.dashboardAge}")
+                                        } else {
+                                            navController.navigate("editTransaction/${row.id}")
+                                        }
+                                    }
+                                    .padding(vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = row.category.ifBlank { "Other" },
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
+                                    Text(
+                                        text = dateFormat.format(Date(row.date)),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                                    )
+                                }
+                                Text(
+                                    text = "₹${row.amount.toInt()}",
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
+                            HorizontalDivider()
+                        }
+                    }
+                }
             }
         }
     }
@@ -126,7 +190,7 @@ fun GraphCard(
     ) {
         if (data.isEmpty()) {
             Text(
-                text = "No transactions found for selected period",
+                text = stringResource(R.string.no_transactions_period),
                 modifier = Modifier.padding(16.dp),
                 style = MaterialTheme.typography.bodyMedium
             )

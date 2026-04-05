@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,20 @@ fun ExpenseCategoryScreen(
     var emi by remember { mutableStateOf("") }
     var additional by remember { mutableStateOf("") }
     var education by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        fun fmt(v: Double) = when {
+            v <= 0 -> ""
+            v % 1.0 == 0.0 -> v.toLong().toString()
+            else -> v.toString()
+        }
+        food = fmt(viewModel.food)
+        rent = fmt(viewModel.rent)
+        medical = fmt(viewModel.medical)
+        emi = fmt(viewModel.emi)
+        education = fmt(viewModel.education)
+        additional = fmt(viewModel.additional)
+    }
 
     CashCactusScreenScaffold(title = stringResource(R.string.monthly_expenses)) { contentPadding ->
         CashCactusCard(

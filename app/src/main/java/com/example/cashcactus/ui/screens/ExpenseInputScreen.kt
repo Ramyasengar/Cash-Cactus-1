@@ -17,8 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.cashcactus.R
 import com.example.cashcactus.ui.components.CashCactusCard
 import com.example.cashcactus.ui.components.CashCactusScreenScaffold
 import com.example.cashcactus.viewmodel.MainViewModel
@@ -31,34 +33,36 @@ fun ExpenseInputScreen(
     val context = LocalContext.current
     var amount by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
+    val fillRequiredText = stringResource(R.string.fill_required)
+    val expenseAddedText = stringResource(R.string.expense_added)
 
-    CashCactusScreenScaffold(title = "Add Expense") { contentPadding ->
+    CashCactusScreenScaffold(title = stringResource(R.string.add_expense_title)) { contentPadding ->
         CashCactusCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(contentPadding)
         ) {
             Column {
-                Text("Add Expense", style = MaterialTheme.typography.headlineMedium)
+                Text(stringResource(R.string.add_expense_title), style = MaterialTheme.typography.headlineMedium)
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedTextField(
                     value = amount,
                     onValueChange = { amount = it },
-                    label = { Text("Amount") },
+                    label = { Text(stringResource(R.string.amount)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedTextField(
                     value = category,
                     onValueChange = { category = it },
-                    label = { Text("Category (Food, Rent, etc)") },
+                    label = { Text(stringResource(R.string.category_expense_hint)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
                     onClick = {
                         if (amount.isBlank() || category.isBlank()) {
-                            Toast.makeText(context, "Fill all fields", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, fillRequiredText, Toast.LENGTH_SHORT).show()
                             return@Button
                         }
 
@@ -69,12 +73,12 @@ fun ExpenseInputScreen(
                             message = "Manual Entry"
                         )
 
-                        Toast.makeText(context, "Expense Added", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, expenseAddedText, Toast.LENGTH_SHORT).show()
                         navController.popBackStack()
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Save Expense")
+                    Text(stringResource(R.string.save_expense))
                 }
             }
         }

@@ -378,7 +378,8 @@
     <string name="hindi">हिंदी</string>
     <string name="account">खाता</string>
     <string name="delete_account">खाता हटाएँ</string>
-    <string name="delete_account_confirmation">क्या आप इस डिवाइस पर अपना खाता सत्र हटाना चाहते हैं?</string>
+    <string name="delete_account_confirmation">यह आपका Firebase खाता, इस डिवाइस पर सहेजा प्रोफ़ाइल डेटा और स्थानीय डेटा स्थायी रूप से हटा देगा। जारी रखें?</string>
+    <string name="delete_account_failed">खाता नहीं हटाया जा सका। साइन आउट करके फिर लॉग इन करें और दोबारा कोशिश करें।</string>
     <string name="investments_title">निवेश</string>
     <string name="invalid_investment_url">अमान्य निवेश URL</string>
     <string name="no_app_to_open_url">इस URL को खोलने के लिए कोई ऐप उपलब्ध नहीं है</string>
@@ -404,5 +405,35 @@
     <string name="stock_market">स्टॉक मार्केट</string>
     <string name="get_recommendation">सुझाव देखें</string>
     <string name="recommended_result">सुझाव: %1$s</string>
+    <string name="user_graph_title">उपयोगकर्ता ग्राफ (वास्तविक खर्च)</string>
+    <string name="ai_graph_title">AI पूर्वानुमान ग्राफ (अनुकूलित)</string>
+    <string name="choose_preferred_plan">अपनी पसंदीदा योजना चुनें</string>
+    <string name="use_actual_spending">मेरा वास्तविक खर्च उपयोग करें (उपयोगकर्ता ग्राफ)</string>
+    <string name="use_ai_optimized_plan">AI अनुकूलित योजना उपयोग करें (AI ग्राफ)</string>
+    <string name="select_plan_from_dashboard">विश्लेषण ग्राफ देखने के लिए डैशबोर्ड में पसंदीदा योजना चुनें।</string>
+
+    <string name="home_tagline">अपने पैसे को समझदारी से मैनेज करें</string>
+    <string name="nav_invest">निवेश</string>
+    <string name="nav_analysis">विश्लेषण</string>
+    <string name="your_balance">आपका बैलेंस</string>
+    <string name="trend_label">ट्रेंड</string>
+    <string name="smart_tip_title">स्मार्ट टिप</string>
+    <string name="smart_tip_save_percent">हर महीने अपनी आय का कम से कम 20%% बचाएँ</string>
+    <string name="time_period">समय अवधि</string>
+    <string name="period_start">शुरुआत: %1$s</string>
+    <string name="period_end">अंत: %1$s</string>
+    <string name="budget_limit_line">बजट सीमा: ₹%1$d</string>
+    <string name="remaining_budget_line">शेष बजट: ₹%1$d</string>
+    <string name="savings_line">बचत: ₹%1$d</string>
+    <string name="no_transactions_period">चयनित अवधि के लिए कोई लेन-देन नहीं मिला</string>
+    <string name="add_expense_title">खर्च जोड़ें</string>
+    <string name="category_expense_hint">श्रेणी (खाना, किराया, आदि)</string>
+    <string name="date_order_error">शुरुआती तारीख अंतिम तारीख से पहले होनी चाहिए</string>
+    <string name="expense_added">खर्च जोड़ा गया</string>
+    <string name="no_expenses_for_period">चयनित अवधि में कोई खर्च नहीं। डैशबोर्ड फ्लो से मासिक खर्च सहेजें या लेन-देन जोड़ें।</string>
+    <string name="monthly_expense_entries">मासिक खर्च की प्रविष्टियाँ</string>
+    <string name="tap_row_to_edit_expense">संपादन के लिए पंक्ति पर टैप करें। बजट श्रेणियाँ मासिक फ़ॉर्म खोलती हैं; अन्य संपादक खोलते हैं।</string>
+    <string name="edit_expense">खर्च संपादित करें</string>
+    <string name="transaction_not_found">यह खर्च नहीं मिला।</string>
 
 </resources>

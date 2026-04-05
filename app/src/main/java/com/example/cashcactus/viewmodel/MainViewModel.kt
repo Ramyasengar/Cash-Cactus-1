@@ -10,11 +10,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.cashcactus.data.local.AppDatabase   // ✅ FIXED
 import com.example.cashcactus.data.model.*
+import com.example.cashcactus.ui.screens.clearAnalyticsPreferences
+import com.example.cashcactus.ui.screens.clearGraphPreference
+import com.example.cashcactus.ui.screens.getAnalyticsPeriod
 import com.example.cashcactus.utils.PasswordSecurity
 import com.example.cashcactus.utils.UserSessionManager
 import com.example.cashcactus.utils.VaultSessionManager
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.example.cashcactus.data.model.DashboardData
 import com.example.cashcactus.utils.BudgetPredictor
 import com.example.cashcactus.data.remote.RetrofitInstance
@@ -69,17 +74,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                     viewModelScope.launch {
 
-                        val user = dao.getUserByEmail(email.trim().lowercase())
+                        val emailNorm = email.trim().lowercase()
+                        var user = dao.getUserByEmail(emailNorm)
+                        if (user == null) {
+                            dao.insertUser(
+                                User(
+                                    name = emailNorm.substringBefore("@"),
+                                    email = emailNorm,
+                                    password = PasswordSecurity.hash(password.trim())
+                                )
+                            )
+                            user = dao.getUserByEmail(emailNorm)
+                        }
 
                         if (user != null) {
                             applyCurrentUser(user)
                             UserSessionManager.saveSession(getApplication(), user)
-
                             loadDashboardData()
                             loadExpenses()
+                            onResult(true)
+                        } else {
+                            onResult(false)
                         }
-
-                        onResult(true)
                     }
 
                 } else {
@@ -237,6 +253,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             loadExpenses()
         }
     }
+
+    fun restoreOrCreateSessionFromFirebase(email: String, context: Context) {
+        viewModelScope.launch {
+            val normalized = email.trim().lowercase()
+            var user = dao.getUserByEmail(normalized)
+            if (user == null) {
+                dao.insertUser(
+                    User(
+                        name = normalized.substringBefore("@"),
+                        email = normalized,
+                        password = PasswordSecurity.hash("_firebase_session_")
+                    )
+                )
+                user = dao.getUserByEmail(normalized)
+            }
+            if (user != null) {
+                applyCurrentUser(user)
+                UserSessionManager.saveSession(getApplication(), user)
+                loadDashboardData()
+                loadExpenses()
+            }
+        }
+    }
     fun updateUser(
         name: String,
         email: String,
@@ -303,6 +342,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             )
 
             dao.insertDashboard(dashboard)
+            syncMonthlyExpenseTransactions(
+                food = food,
+                rent = rent,
+                medical = medical,
+                emi = emi,
+                education = education,
+                additional = additional
+            )
             refreshAIPredictedExpenses()
         }
         FirebaseRepository.saveUserData(
@@ -321,10 +368,104 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun logout(navController: NavHostController) {
         com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+        UserSessionManager.clearSession(getApplication())
 
         navController.navigate("login") {
-            popUpTo("home") { inclusive = true }
+            popUpTo(0) { inclusive = true }
         }
+    }
+
+    /**
+     * Deletes the Firebase Auth user, Firestore profile doc, local Room rows, and app prefs for this account.
+     * On failure (e.g. requires recent login), [onResult] is called with false and an error message.
+     */
+    fun deleteAccount(onResult: (success: Boolean, errorMessage: String?) -> Unit) {
+        val app = getApplication<Application>()
+        val auth = FirebaseAuth.getInstance()
+        val firebaseUser = auth.currentUser
+        val userId = currentUserId
+
+        suspend fun purgeLocalData() {
+            withContext(Dispatchers.IO) {
+                if (userId > 0) {
+                    FirebaseRepository.deleteUserDocument(userId.toString())
+                    dao.deleteDashboardByUserId(userId)
+                    dao.deleteExpensesByUserId(userId)
+                    dao.deleteUserById(userId)
+                }
+                dao.deleteAllTransactions()
+            }
+            clearAnalyticsPreferences(app)
+            clearGraphPreference(app)
+            UserSessionManager.clearSession(app)
+            resetStateAfterAccountDeletion()
+        }
+
+        if (firebaseUser != null) {
+            firebaseUser.delete().addOnCompleteListener { task ->
+                viewModelScope.launch {
+                    if (task.isSuccessful) {
+                        purgeLocalData()
+                        auth.signOut()
+                        onResult(true, null)
+                    } else {
+                        val msg = task.exception?.localizedMessage
+                            ?: task.exception?.message
+                        onResult(false, msg)
+                    }
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                purgeLocalData()
+                auth.signOut()
+                onResult(true, null)
+            }
+        }
+    }
+
+    private fun resetStateAfterAccountDeletion() {
+        currentUserId = 0
+        currentUserName = ""
+        currentUserEmail = ""
+        currentUserPassword = ""
+        dashboardAge = 0
+        monthlySalary = 0.0
+        food = 0.0
+        rent = 0.0
+        medical = 0.0
+        emi = 0.0
+        additional = 0.0
+        education = 0.0
+        prediction = 0.0
+        insight = ""
+        alerts = emptyList()
+        savingsPercent = 0
+        trend = ""
+        aiPredictedExpenses = defaultCategoryTotals()
+    }
+
+    private suspend fun syncMonthlyExpenseTransactions(
+        food: Double,
+        rent: Double,
+        medical: Double,
+        emi: Double,
+        education: Double,
+        additional: Double
+    ) {
+        val app = getApplication<Application>()
+        val period = getAnalyticsPeriod(app)
+        val txnDate = period?.startDateMillis ?: System.currentTimeMillis()
+        dao.deleteTransactionsByOrigin(TRANSACTION_ORIGIN_MONTHLY)
+        val rows = listOf(
+            Transaction(amount = food, type = "expense", category = "Food", date = txnDate, origin = TRANSACTION_ORIGIN_MONTHLY),
+            Transaction(amount = rent, type = "expense", category = "Rent", date = txnDate, origin = TRANSACTION_ORIGIN_MONTHLY),
+            Transaction(amount = medical, type = "expense", category = "Medical", date = txnDate, origin = TRANSACTION_ORIGIN_MONTHLY),
+            Transaction(amount = emi, type = "expense", category = "EMI", date = txnDate, origin = TRANSACTION_ORIGIN_MONTHLY),
+            Transaction(amount = education, type = "expense", category = "Education", date = txnDate, origin = TRANSACTION_ORIGIN_MONTHLY),
+            Transaction(amount = additional, type = "expense", category = "Additional", date = txnDate, origin = TRANSACTION_ORIGIN_MONTHLY)
+        )
+        rows.forEach { dao.insertTransaction(it) }
     }
     fun addTransaction(
         amount: Double,

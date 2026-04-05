@@ -27,4 +27,8 @@ class TransactionRepository(
     suspend fun delete(transaction: Transaction) {
         appDao.deleteTransaction(transaction)
     }
+
+    suspend fun update(transaction: Transaction) {
+        appDao.updateTransaction(transaction)
+    }
 }

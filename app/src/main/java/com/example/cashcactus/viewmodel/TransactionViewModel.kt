@@ -8,6 +8,7 @@ import com.example.cashcactus.data.model.Transaction
 import com.example.cashcactus.data.repository.TransactionRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class TransactionViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -20,4 +21,10 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             SharingStarted.WhileSubscribed(5000),
             emptyList()
         )
+
+    fun updateTransaction(transaction: Transaction) {
+        viewModelScope.launch {
+            repository.update(transaction)
+        }
+    }
 }

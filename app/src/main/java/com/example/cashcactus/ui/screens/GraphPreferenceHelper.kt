@@ -16,6 +16,10 @@ fun getGraphPreference(context: Context): String {
     return prefs.getString("graph_type", GRAPH_NONE) ?: GRAPH_NONE
 }
 
+fun clearGraphPreference(context: Context) {
+    context.getSharedPreferences("graph_pref", Context.MODE_PRIVATE).edit().clear().apply()
+}
+
 fun buildOptimizedExpenseMap(actualExpenses: Map<String, Float>): Map<String, Float> {
     return actualExpenses.mapValues { (category, amount) ->
         if (category.equals("rent", ignoreCase = true)) {

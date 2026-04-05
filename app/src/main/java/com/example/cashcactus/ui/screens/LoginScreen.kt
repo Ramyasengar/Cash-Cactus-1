@@ -36,15 +36,12 @@ import com.example.cashcactus.R
 import com.example.cashcactus.ui.components.BaseScreen
 import com.example.cashcactus.ui.components.CashCactusCard
 import com.example.cashcactus.viewmodel.MainViewModel
-import com.google.firebase.auth.FirebaseAuth
-
 @Composable
 fun LoginScreen(
     navController: NavHostController,
     viewModel: MainViewModel
 ) {
     val context = LocalContext.current
-    val auth = FirebaseAuth.getInstance()
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -128,10 +125,8 @@ fun LoginScreen(
                     Button(
                         onClick = {
                             if (email.isNotEmpty() && password.isNotEmpty()) {
-                                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        val user = auth.currentUser
-                                        viewModel.currentUserId = user?.uid?.hashCode() ?: 0
+                                viewModel.loginUser(email, password) { success ->
+                                    if (success) {
                                         navController.navigate("home") {
                                             popUpTo("login") { inclusive = true }
                                         }

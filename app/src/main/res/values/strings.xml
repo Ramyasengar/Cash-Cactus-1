@@ -379,7 +379,8 @@ We may update this policy. Continued use means acceptance.
     <string name="hindi">Hindi</string>
     <string name="account">Account</string>
     <string name="delete_account">Delete Account</string>
-    <string name="delete_account_confirmation">Are you sure you want to delete your account session on this device?</string>
+    <string name="delete_account_confirmation">This will permanently delete your Firebase account, saved profile on this device, and local data. Continue?</string>
+    <string name="delete_account_failed">Could not delete the account. Try signing out, logging in again, then retry.</string>
     <string name="investments_title">Investments</string>
     <string name="invalid_investment_url">Invalid investment URL</string>
     <string name="no_app_to_open_url">No app available to open this URL</string>
@@ -411,5 +412,29 @@ We may update this policy. Continued use means acceptance.
     <string name="use_actual_spending">Use My Actual Spending (User Graph)</string>
     <string name="use_ai_optimized_plan">Use AI Optimized Plan (AI Graph)</string>
     <string name="select_plan_from_dashboard">Choose a preferred plan in Dashboard to view analytics graph.</string>
+
+    <string name="home_tagline">Manage your money smartly</string>
+    <string name="nav_invest">Invest</string>
+    <string name="nav_analysis">Analysis</string>
+    <string name="your_balance">Your Balance</string>
+    <string name="trend_label">Trend</string>
+    <string name="smart_tip_title">Smart Tip</string>
+    <string name="smart_tip_save_percent">Save at least 20%% of your income every month</string>
+    <string name="time_period">Time Period</string>
+    <string name="period_start">Start: %1$s</string>
+    <string name="period_end">End: %1$s</string>
+    <string name="budget_limit_line">Budget Limit: ₹%1$d</string>
+    <string name="remaining_budget_line">Remaining Budget: ₹%1$d</string>
+    <string name="savings_line">Savings: ₹%1$d</string>
+    <string name="no_transactions_period">No transactions found for selected period</string>
+    <string name="add_expense_title">Add Expense</string>
+    <string name="category_expense_hint">Category (Food, Rent, etc)</string>
+    <string name="date_order_error">Start date must be before end date</string>
+    <string name="expense_added">Expense added</string>
+    <string name="no_expenses_for_period">No expenses in the selected period. Save monthly expenses from the dashboard flow or add transactions.</string>
+    <string name="monthly_expense_entries">Monthly expense entries</string>
+    <string name="tap_row_to_edit_expense">Tap a row to edit. Budget categories open the monthly expense form; other entries open the editor.</string>
+    <string name="edit_expense">Edit expense</string>
+    <string name="transaction_not_found">Could not find this expense.</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.example.cashcactus.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/** Room: monthly budget and per-category expense totals. The setup form is on DashboardScreen (user/AI pie charts removed from that screen for now). */
 @Entity
 data class DashboardData(
 

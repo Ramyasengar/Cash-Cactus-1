@@ -41,3 +41,7 @@ fun getBudgetLimit(context: Context): Double {
     val prefs = context.getSharedPreferences(ANALYTICS_PREFS, Context.MODE_PRIVATE)
     return prefs.getFloat(KEY_BUDGET_LIMIT, 0f).toDouble()
 }
+
+fun clearAnalyticsPreferences(context: Context) {
+    context.getSharedPreferences(ANALYTICS_PREFS, Context.MODE_PRIVATE).edit().clear().apply()
+}

@@ -1,6 +1,5 @@
 package com.example.cashcactus.ui.screens
 
-import android.app.DatePickerDialog
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -21,8 +22,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,18 +34,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.cashcactus.R
 import com.example.cashcactus.ui.components.CashCactusCard
 import com.example.cashcactus.ui.components.CashCactusScreenScaffold
-import com.example.cashcactus.ui.components.PieChartView
 import com.example.cashcactus.viewmodel.MainViewModel
-import com.example.cashcactus.viewmodel.TransactionViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,14 +52,6 @@ fun DashboardScreen(
     viewModel: MainViewModel
 ) {
     val context = LocalContext.current
-    val transactionViewModel: TransactionViewModel = viewModel()
-    val transactions by transactionViewModel.allTransactions.collectAsState(initial = emptyList())
-
-    val expenseMap = transactions
-        .filter { it.type.equals("expense", ignoreCase = true) }
-        .groupBy { it.category }
-        .mapValues { entry -> entry.value.sumOf { it.amount }.toFloat() }
-    val aiExpenseMap = buildOptimizedExpenseMap(expenseMap)
 
     var category by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
@@ -87,12 +79,28 @@ fun DashboardScreen(
     val fillRequiredText = stringResource(R.string.fill_required)
     val enterSavingText = stringResource(R.string.enter_saving)
     val savedSuccessText = stringResource(R.string.saved_success)
-    var selectedGraphPreference by remember {
-        mutableStateOf(
-            when (getGraphPreference(context)) {
-                GRAPH_USER -> GRAPH_USER
-                GRAPH_AI -> GRAPH_AI
-                else -> null
+    val dateOrderErrorText = stringResource(R.string.date_order_error)
+
+    var showStartDatePicker by remember { mutableStateOf(false) }
+    var showEndDatePicker by remember { mutableStateOf(false) }
+
+    if (showStartDatePicker) {
+        PeriodDatePickerDialog(
+            initialMillis = selectedStartDate,
+            onDismiss = { showStartDatePicker = false },
+            onDateConfirmed = {
+                selectedStartDate = it
+                showStartDatePicker = false
+            }
+        )
+    }
+    if (showEndDatePicker) {
+        PeriodDatePickerDialog(
+            initialMillis = selectedEndDate,
+            onDismiss = { showEndDatePicker = false },
+            onDateConfirmed = {
+                selectedEndDate = it
+                showEndDatePicker = false
             }
         )
     }
@@ -149,24 +157,20 @@ fun DashboardScreen(
                         OutlinedTextField(value = budget, onValueChange = { budget = it }, label = { Text(stringResource(R.string.monthly_budget)) }, modifier = Modifier.fillMaxWidth())
 
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text("Time Period", style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.time_period), style = MaterialTheme.typography.titleMedium)
                         Spacer(modifier = Modifier.height(8.dp))
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Button(
-                                onClick = {
-                                    showDatePicker(context, selectedStartDate) { selectedStartDate = it }
-                                },
+                                onClick = { showStartDatePicker = true },
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text("Start: ${formatDate(selectedStartDate)}")
+                                Text(stringResource(R.string.period_start, formatDate(selectedStartDate)))
                             }
                             Button(
-                                onClick = {
-                                    showDatePicker(context, selectedEndDate) { selectedEndDate = it }
-                                },
+                                onClick = { showEndDatePicker = true },
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text("End: ${formatDate(selectedEndDate)}")
+                                Text(stringResource(R.string.period_end, formatDate(selectedEndDate)))
                             }
                         }
 
@@ -217,7 +221,7 @@ fun DashboardScreen(
                         Button(
                             onClick = {
                                 if (selectedStartDate > selectedEndDate) {
-                                    Toast.makeText(context, "Start date must be before end date", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, dateOrderErrorText, Toast.LENGTH_SHORT).show()
                                     return@Button
                                 }
                                 if (category.isBlank() || ageInput.isBlank() || income.isBlank() || budget.isBlank()) {
@@ -247,60 +251,7 @@ fun DashboardScreen(
                 }
             }
 
-            if (expenseMap.isNotEmpty()) {
-                item {
-                    CashCactusCard(modifier = Modifier.fillMaxWidth()) {
-                        Column {
-                            Text(text = stringResource(R.string.user_graph_title), style = MaterialTheme.typography.titleMedium)
-                            Spacer(modifier = Modifier.height(10.dp))
-                            PieChartView(data = expenseMap)
-                        }
-                    }
-                }
-
-                item {
-                    CashCactusCard(modifier = Modifier.fillMaxWidth()) {
-                        Column {
-                            Text(text = stringResource(R.string.ai_graph_title), style = MaterialTheme.typography.titleMedium)
-                            Spacer(modifier = Modifier.height(10.dp))
-                            PieChartView(data = aiExpenseMap)
-                        }
-                    }
-                }
-
-                item {
-                    CashCactusCard(modifier = Modifier.fillMaxWidth()) {
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text(
-                                text = stringResource(R.string.choose_preferred_plan),
-                                style = MaterialTheme.typography.titleMedium
-                            )
-
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                RadioButton(
-                                    selected = selectedGraphPreference == GRAPH_USER,
-                                    onClick = {
-                                        selectedGraphPreference = GRAPH_USER
-                                        saveGraphPreference(context, GRAPH_USER)
-                                    }
-                                )
-                                Text(text = stringResource(R.string.use_actual_spending))
-                            }
-
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                RadioButton(
-                                    selected = selectedGraphPreference == GRAPH_AI,
-                                    onClick = {
-                                        selectedGraphPreference = GRAPH_AI
-                                        saveGraphPreference(context, GRAPH_AI)
-                                    }
-                                )
-                                Text(text = stringResource(R.string.use_ai_optimized_plan))
-                            }
-                        }
-                    }
-                }
-            }
+            // User graph, AI prediction graph, and "choose preferred plan" were removed from this screen (not needed for now).
 
             item {
                 Button(
@@ -314,21 +265,54 @@ fun DashboardScreen(
     }
 }
 
-private fun showDatePicker(context: android.content.Context, initialMillis: Long, onDateSelected: (Long) -> Unit) {
-    val cal = Calendar.getInstance().apply { timeInMillis = initialMillis }
+/**
+ * Material3 date picker: works with the app's localized [LocalContext] (no Activity lookup).
+ * Converts picker UTC millis to start of the chosen calendar day in the system default timezone.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PeriodDatePickerDialog(
+    initialMillis: Long,
+    onDismiss: () -> Unit,
+    onDateConfirmed: (Long) -> Unit
+) {
+    val state = rememberDatePickerState(initialSelectedDateMillis = initialMillis)
     DatePickerDialog(
-        context,
-        { _, year, month, dayOfMonth ->
-            val selected = Calendar.getInstance().apply {
-                set(year, month, dayOfMonth, 0, 0, 0)
-                set(Calendar.MILLISECOND, 0)
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    val picked = state.selectedDateMillis
+                    if (picked != null) {
+                        onDateConfirmed(materialDatePickerMillisToLocalDayStart(picked))
+                    }
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(android.R.string.ok))
             }
-            onDateSelected(selected.timeInMillis)
         },
-        cal.get(Calendar.YEAR),
-        cal.get(Calendar.MONTH),
-        cal.get(Calendar.DAY_OF_MONTH)
-    ).show()
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(R.string.cancel))
+            }
+        }
+    ) {
+        DatePicker(state = state)
+    }
+}
+
+/** Material [DatePicker] uses UTC; align to local midnight for the same calendar date. */
+private fun materialDatePickerMillisToLocalDayStart(utcMillis: Long): Long {
+    val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+    utc.timeInMillis = utcMillis
+    val y = utc.get(Calendar.YEAR)
+    val m = utc.get(Calendar.MONTH)
+    val d = utc.get(Calendar.DAY_OF_MONTH)
+    val local = Calendar.getInstance()
+    local.set(y, m, d, 0, 0, 0)
+    local.set(Calendar.MILLISECOND, 0)
+    return local.timeInMillis
 }
 
 private fun formatDate(millis: Long): String {
